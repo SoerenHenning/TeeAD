@@ -8,7 +8,6 @@ public class ForecastStage extends AbstractTransformation<Measurement, Measureme
 	private final IForecaster<Double> forecaster;
 
 	public ForecastStage(final IForecaster<Double> forecaster) {
-		super();
 		this.forecaster = forecaster;
 	}
 
