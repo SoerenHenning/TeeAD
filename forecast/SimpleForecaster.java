@@ -2,10 +2,10 @@ package anomalydetection.forecast;
 
 import anomalydetection.TimeSeries;
 
-public class SimpleForecaster<T> implements IForecaster<T> {
+public class SimpleForecaster implements IForecaster {
 
 	@Override
-	public T forecast(final TimeSeries<T> timeSeries) {
+	public double forecast(final TimeSeries timeSeries) {
 		return timeSeries.getTimeSeriesPoints().get(0).getValue();
 	}
 

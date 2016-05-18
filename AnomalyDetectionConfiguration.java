@@ -10,7 +10,7 @@ public class AnomalyDetectionConfiguration extends Configuration {
 		// Create the stages
 		final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage();
 		final SimpleHistoryDecorationStage historyDecorator = new SimpleHistoryDecorationStage();
-		final ForecastStage forecaster = new ForecastStage(new SimpleForecaster<Double>());
+		final ForecastStage forecaster = new ForecastStage(new SimpleForecaster());
 		final PrinterStage printer = new PrinterStage();
 
 		// Connect the stages

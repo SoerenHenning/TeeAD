@@ -12,7 +12,7 @@ public class Measurement {
 
 	private double anomalyScore;
 
-	private TimeSeries<Double> history;
+	private TimeSeries history;
 
 	public Measurement(final Instant time, final double value) {
 		this.time = time;
@@ -51,11 +51,11 @@ public class Measurement {
 		this.anomalyScore = anomalyScore;
 	}
 
-	public TimeSeries<Double> getHistory() {
+	public TimeSeries getHistory() {
 		return history;
 	}
 
-	public void setHistory(final TimeSeries<Double> history) {
+	public void setHistory(final TimeSeries history) {
 		this.history = history;
 	}
 

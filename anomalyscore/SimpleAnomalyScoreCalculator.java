@@ -1,9 +1,9 @@
 package anomalydetection.anomalyscore;
 
-public class SimpleAnomalyScoreCalculator implements IAnomalyScoreCalculator<Double> {
+public class SimpleAnomalyScoreCalculator implements IAnomalyScoreCalculator {
 
 	@Override
-	public double calculate(final Double value, final Double prediction) {
+	public double calculate(final double value, final double prediction) {
 		// TODO
 		return value + prediction;
 	}

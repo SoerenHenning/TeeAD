@@ -2,13 +2,13 @@ package anomalydetection;
 
 import java.time.Instant;
 
-public class TimeSeriesPoint<T> {
+public class TimeSeriesPoint {
 
 	private final Instant time;
 
-	private final T value;
+	private final double value;
 
-	public TimeSeriesPoint(final Instant time, final T value) {
+	public TimeSeriesPoint(final Instant time, final double value) {
 		this.time = time;
 		this.value = value;
 	}
@@ -17,7 +17,7 @@ public class TimeSeriesPoint<T> {
 		return time;
 	}
 
-	public T getValue() {
+	public double getValue() {
 		return value;
 	}
 

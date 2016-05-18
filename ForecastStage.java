@@ -5,9 +5,9 @@ import teetime.stage.basic.AbstractTransformation;
 
 public class ForecastStage extends AbstractTransformation<Measurement, Measurement> {
 
-	private final IForecaster<Double> forecaster;
+	private final IForecaster forecaster;
 
-	public ForecastStage(final IForecaster<Double> forecaster) {
+	public ForecastStage(final IForecaster forecaster) {
 		this.forecaster = forecaster;
 	}
 

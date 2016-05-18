@@ -2,8 +2,8 @@ package anomalydetection.forecast;
 
 import anomalydetection.TimeSeries;
 
-public interface IForecaster<T> {
+public interface IForecaster {
 
-	public T forecast(TimeSeries<T> timeSeries);
+	public double forecast(TimeSeries timeSeries);
 
 }
