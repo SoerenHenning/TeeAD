@@ -15,4 +15,14 @@ public class TimeSeries {
 		return timeSeriesPoints;
 	}
 
+	public double[] toArray() {
+		double[] array = new double[this.timeSeriesPoints.size()];
+		int i = 0;
+		for (final TimeSeriesPoint point : this.timeSeriesPoints) {
+			array[i] = point.getValue();
+			i++;
+		}
+		return array;
+	}
+
 }
