@@ -2,6 +2,7 @@ package anomalydetection;
 
 import java.time.Instant;
 
+import anomalydetection.measurement.Measurement;
 import teetime.framework.AbstractProducerStage;
 
 public class MeassurementsGeneratorStage extends AbstractProducerStage<Measurement> {

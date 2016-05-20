@@ -1,6 +1,5 @@
 package anomalydetection;
 
-import anomalydetection.forecast.SimpleForecaster;
 import teetime.framework.Configuration;
 
 public class AnomalyDetectionConfiguration extends Configuration {
@@ -9,14 +8,14 @@ public class AnomalyDetectionConfiguration extends Configuration {
 
 		// Create the stages
 		final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage();
-		final SimpleHistoryDecorationStage historyDecorator = new SimpleHistoryDecorationStage();
-		final ForecastStage forecaster = new ForecastStage(new SimpleForecaster());
+		final SimpleForecastDecorationStage forecastDecorator = new SimpleForecastDecorationStage();
+		// final ForecastStage forecaster = new ForecastStage(new SimpleForecaster());
 		final PrinterStage printer = new PrinterStage();
 
 		// Connect the stages
-		super.connectPorts(generator.getOutputPort(), historyDecorator.getInputPort());
-		super.connectPorts(historyDecorator.getOutputPort(), forecaster.getInputPort());
-		super.connectPorts(forecaster.getOutputPort(), printer.getInputPort());
+		super.connectPorts(generator.getOutputPort(), forecastDecorator.getInputPort());
+		super.connectPorts(forecastDecorator.getOutputPort(), printer.getInputPort());
+		// super.connectPorts(forecaster.getOutputPort(), printer.getInputPort());
 
 	}
 
