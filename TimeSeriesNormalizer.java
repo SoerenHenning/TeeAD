@@ -32,7 +32,7 @@ public class TimeSeriesNormalizer {
 
 				// Make new interval
 				interval = new TimeSeries();
-				intervalEnding.minus(this.stepSize);
+				intervalEnding = intervalEnding.minus(this.stepSize);
 			}
 			interval.append(point);
 		}
