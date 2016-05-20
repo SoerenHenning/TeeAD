@@ -9,8 +9,8 @@ public class NormalizerStage extends AbstractTransformation<TimeSeries, TimeSeri
 
 	private final TimeSeriesNormalizer normalizer;
 
-	public NormalizerStage(final IAggregator aggregator, final Duration stepSize) {
-		this.normalizer = new TimeSeriesNormalizer();
+	public NormalizerStage(final Duration stepSize, final IAggregator aggregator) {
+		this.normalizer = new TimeSeriesNormalizer(stepSize, aggregator);
 	}
 
 	@Override

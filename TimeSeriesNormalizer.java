@@ -4,12 +4,16 @@ import java.time.Duration;
 import java.time.Instant;
 
 import anomalydetection.aggregation.IAggregator;
-import anomalydetection.aggregation.MeanAggregator;
 
 public class TimeSeriesNormalizer {
 
-	private final Duration stepSize = Duration.ofMinutes(1); // TODO
-	private final IAggregator aggregator = new MeanAggregator(); // TODO temp
+	private final Duration stepSize;
+	private final IAggregator aggregator;
+
+	public TimeSeriesNormalizer(final Duration stepSize, final IAggregator aggregator) {
+		this.stepSize = stepSize;
+		this.aggregator = aggregator;
+	}
 
 	public TimeSeries normalize(final TimeSeries timeSeries) {
 
