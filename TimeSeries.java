@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TimeSeries {
 
-	private final List<TimeSeriesPoint> timeSeriesPoints = new ArrayList<TimeSeriesPoint>(); // todo java 8
+	private final List<TimeSeriesPoint> timeSeriesPoints = new ArrayList<>();
 
 	public void append(final TimeSeriesPoint timeSeriesPoint) {
 		timeSeriesPoints.add(timeSeriesPoint);
