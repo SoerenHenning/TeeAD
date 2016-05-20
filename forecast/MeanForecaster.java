@@ -9,7 +9,7 @@ public class MeanForecaster implements IForecaster {
 	@Override
 	public double forecast(final TimeSeries timeSeries) {
 
-		return StatUtils.mean(timeSeries.toArray());
+		return StatUtils.mean(timeSeries.toArray(true));
 
 	}
 
