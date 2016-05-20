@@ -1,5 +1,6 @@
 package anomalydetection;
 
+import java.time.Duration;
 import java.time.Instant;
 
 import anomalydetection.aggregation.IAggregator;
@@ -7,16 +8,15 @@ import anomalydetection.aggregation.MeanAggregator;
 
 public class TimeSeriesNormalizer {
 
-	// TODO use java8 Duration
-	private final long stepSize = 60 * 1000; // in ms -> 1 min
+	private final Duration stepSize = Duration.ofMinutes(1); // TODO
 	private final IAggregator aggregator = new MeanAggregator(); // TODO temp
 
-	public void normalize(final TimeSeries timeSeries) {
+	public TimeSeries normalize(final TimeSeries timeSeries) {
 
 		TimeSeries equidistanteTimeSeries = new TimeSeries(); // TODO subclass
 
 		// TOOD first(), peak(),...
-		Instant intervalEnding = timeSeries.getTimeSeriesPoints().get(0).getTime().minusMillis(stepSize);
+		Instant intervalEnding = timeSeries.getTimeSeriesPoints().get(0).getTime().minus(this.stepSize);
 		TimeSeries interval = new TimeSeries();
 
 		for (TimeSeriesPoint point : timeSeries.getTimeSeriesPoints()) {
@@ -28,11 +28,13 @@ public class TimeSeriesNormalizer {
 
 				// Make new interval
 				interval = new TimeSeries();
-				intervalEnding.minusMillis(stepSize); // TODO
+				intervalEnding.minus(this.stepSize);
 			}
 			interval.append(point);
 		}
 		// letztes interval abschließen
+
+		return equidistanteTimeSeries;
 
 	}
 
