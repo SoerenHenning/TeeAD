@@ -17,6 +17,10 @@ public class TimeSeriesNormalizer {
 
 	public TimeSeries normalize(final TimeSeries timeSeries) {
 
+		if (timeSeries.getTimeSeriesPoints().isEmpty()) {
+			return new TimeSeries();
+		}
+
 		TimeSeries equidistanteTimeSeries = new TimeSeries(); // TODO subclass
 
 		// TOOD first(), peak(),...

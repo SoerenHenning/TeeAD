@@ -1,0 +1,26 @@
+package anomalydetection;
+
+import anomalydetection.measurement.Measurement;
+
+//TODO Name has to be reconsidered
+public class TimeSeriesExtractor {
+
+	private final TimeSeries timeSeries; // TODO Bounded time Series
+
+	public TimeSeriesExtractor(final TimeSeries timeSeries) {
+		this.timeSeries = timeSeries;
+	}
+
+	public TimeSeries extract(final Measurement measurement) {
+		TimeSeries timeSeries = new TimeSeries();
+
+		for (TimeSeriesPoint timeSeriesPoint : this.timeSeries.getTimeSeriesPoints()) {
+			timeSeries.append(timeSeriesPoint);
+		}
+
+		this.timeSeries.append(new TimeSeriesPoint(measurement.getTime(), measurement.getValue()));
+
+		return timeSeries;
+	}
+
+}
