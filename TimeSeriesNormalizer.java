@@ -41,6 +41,9 @@ public class TimeSeriesNormalizer {
 			interval.append(point);
 		}
 		// letztes interval abschließen
+		double aggregated = aggregator.aggregate(interval);
+		equidistanteTimeSeries.append(new TimeSeriesPoint(intervalEnding, aggregated));
+		// Redundater Code
 
 		return equidistanteTimeSeries;
 

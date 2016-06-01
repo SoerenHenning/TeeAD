@@ -1,13 +1,14 @@
 package anomalydetection;
 
-import anomalydetection.measurement.ForecastedMeassurement;
+import anomalydetection.measurement.AnomalyScoredMeasurement;
 import teetime.framework.AbstractConsumerStage;
 
-public class PrinterStage extends AbstractConsumerStage<ForecastedMeassurement> {
+public class PrinterStage extends AbstractConsumerStage<AnomalyScoredMeasurement> {
 
 	@Override
-	protected void execute(final ForecastedMeassurement measurement) {
-		System.out.println(measurement.getTime() + "::" + measurement.getValue() + "::" + measurement.getPrediction());
+	protected void execute(final AnomalyScoredMeasurement measurement) {
+		System.out.println(measurement.getTime() + "::" + measurement.getValue()
+				+ "::" + measurement.getPrediction() + "::" + measurement.getAnomalyScore());
 	}
 
 }
