@@ -2,7 +2,7 @@ package anomalydetection;
 
 import teetime.framework.Execution;
 
-public class AnomayDetectionTool {
+public class AnomalyDetectionTool {
 
 	public static void main(final String[] args) {
 
