@@ -17,7 +17,7 @@ public class MeassurementsGeneratorStage extends AbstractProducerStage<Measureme
 			this.outputPort.send(measurement);
 		}
 
-		this.terminate();
+		this.terminateStage();
 
 	}
 
