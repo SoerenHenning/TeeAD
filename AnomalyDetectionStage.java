@@ -25,7 +25,9 @@ public class AnomalyDetectionStage extends CompositeStage {
 		final ForecastStage forecaster = new ForecastStage(new MeanForecaster());
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
+		final Distributor<AnomalyScoredMeasurement> anomalyScoreDistributor = new Distributor<>(new CopyByReferenceStrategy());
 		final PrinterStage printer = new PrinterStage();
+		final StorageStage storager = new StorageStage();
 
 		this.inputPort = measurementDistributor.getInputPort();
 
@@ -36,7 +38,9 @@ public class AnomalyDetectionStage extends CompositeStage {
 		super.connectPorts(forecaster.getOutputPort(), measurementForecastDecorator.getInputPort1());
 		super.connectPorts(measurementDistributor.getNewOutputPort(), measurementForecastDecorator.getInputPort2());
 		super.connectPorts(measurementForecastDecorator.getOutputPort(), anomalyScoreCalculator.getInputPort());
-		super.connectPorts(anomalyScoreCalculator.getOutputPort(), printer.getInputPort());
+		super.connectPorts(anomalyScoreCalculator.getOutputPort(), anomalyScoreDistributor.getInputPort());
+		super.connectPorts(anomalyScoreDistributor.getNewOutputPort(), printer.getInputPort());
+		super.connectPorts(anomalyScoreDistributor.getNewOutputPort(), storager.getInputPort());
 
 	}
 
