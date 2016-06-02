@@ -4,7 +4,7 @@ import org.apache.commons.math3.stat.StatUtils;
 
 import anomalydetection.TimeSeries;
 
-public class PercentileAggregator implements IAggregator {
+public class PercentileAggregator implements Aggregator {
 
 	private double percentile;
 

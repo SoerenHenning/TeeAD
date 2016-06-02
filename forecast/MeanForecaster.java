@@ -4,7 +4,7 @@ import org.apache.commons.math3.stat.StatUtils;
 
 import anomalydetection.TimeSeries;
 
-public class MeanForecaster implements IForecaster {
+public class MeanForecaster implements Forecaster {
 
 	@Override
 	public double forecast(final TimeSeries timeSeries) {

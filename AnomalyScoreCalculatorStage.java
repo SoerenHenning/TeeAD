@@ -1,6 +1,6 @@
 package anomalydetection;
 
-import anomalydetection.anomalyscore.IAnomalyScoreCalculator;
+import anomalydetection.anomalyscore.AnomalyScoreCalculator;
 import anomalydetection.anomalyscore.SimpleAnomalyScoreCalculator;
 import anomalydetection.measurement.AnomalyScoredMeasurement;
 import anomalydetection.measurement.ForecastedMeassurement;
@@ -8,13 +8,13 @@ import teetime.stage.basic.AbstractTransformation;
 
 public class AnomalyScoreCalculatorStage extends AbstractTransformation<ForecastedMeassurement, AnomalyScoredMeasurement> {
 
-	private final IAnomalyScoreCalculator anomalyScoreCalculator;
+	private final AnomalyScoreCalculator anomalyScoreCalculator;
 
 	public AnomalyScoreCalculatorStage() {
 		this.anomalyScoreCalculator = new SimpleAnomalyScoreCalculator();
 	}
 
-	public AnomalyScoreCalculatorStage(final IAnomalyScoreCalculator anomalyScoreCalculator) {
+	public AnomalyScoreCalculatorStage(final AnomalyScoreCalculator anomalyScoreCalculator) {
 		this.anomalyScoreCalculator = anomalyScoreCalculator;
 	}
 

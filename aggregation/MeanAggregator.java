@@ -4,7 +4,7 @@ import org.apache.commons.math3.stat.StatUtils;
 
 import anomalydetection.TimeSeries;
 
-public class MeanAggregator implements IAggregator {
+public class MeanAggregator implements Aggregator {
 
 	@Override
 	public double aggregate(final TimeSeries timeSeries) {

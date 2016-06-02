@@ -1,13 +1,13 @@
 package anomalydetection;
 
-import anomalydetection.forecast.IForecaster;
+import anomalydetection.forecast.Forecaster;
 import teetime.stage.basic.AbstractTransformation;
 
 public class ForecastStage extends AbstractTransformation<TimeSeries, Double> {
 
-	private final IForecaster forecaster;
+	private final Forecaster forecaster;
 
-	public ForecastStage(final IForecaster forecaster) {
+	public ForecastStage(final Forecaster forecaster) {
 		super();
 		this.forecaster = forecaster;
 	}

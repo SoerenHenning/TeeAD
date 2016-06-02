@@ -1,6 +1,6 @@
 package anomalydetection.anomalyscore;
 
-public class SimpleAnomalyScoreCalculator implements IAnomalyScoreCalculator {
+public class SimpleAnomalyScoreCalculator implements AnomalyScoreCalculator {
 
 	@Override
 	public double calculate(final double measurement, final double prediction) {

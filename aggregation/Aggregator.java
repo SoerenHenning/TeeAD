@@ -2,7 +2,7 @@ package anomalydetection.aggregation;
 
 import anomalydetection.TimeSeries;
 
-public interface IAggregator {
+public interface Aggregator {
 
 	public double aggregate(final TimeSeries timeSeries);
 

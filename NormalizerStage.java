@@ -2,14 +2,14 @@ package anomalydetection;
 
 import java.time.Duration;
 
-import anomalydetection.aggregation.IAggregator;
+import anomalydetection.aggregation.Aggregator;
 import teetime.stage.basic.AbstractTransformation;
 
 public class NormalizerStage extends AbstractTransformation<TimeSeries, TimeSeries> {
 
 	private final TimeSeriesNormalizer normalizer;
 
-	public NormalizerStage(final Duration stepSize, final IAggregator aggregator) {
+	public NormalizerStage(final Duration stepSize, final Aggregator aggregator) {
 		this.normalizer = new TimeSeriesNormalizer(stepSize, aggregator);
 	}
 

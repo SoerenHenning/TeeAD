@@ -3,14 +3,14 @@ package anomalydetection;
 import java.time.Duration;
 import java.time.Instant;
 
-import anomalydetection.aggregation.IAggregator;
+import anomalydetection.aggregation.Aggregator;
 
 public class TimeSeriesNormalizer {
 
 	private final Duration stepSize;
-	private final IAggregator aggregator;
+	private final Aggregator aggregator;
 
-	public TimeSeriesNormalizer(final Duration stepSize, final IAggregator aggregator) {
+	public TimeSeriesNormalizer(final Duration stepSize, final Aggregator aggregator) {
 		this.stepSize = stepSize;
 		this.aggregator = aggregator;
 	}
