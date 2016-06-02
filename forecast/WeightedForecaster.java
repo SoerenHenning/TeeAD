@@ -3,6 +3,10 @@ package anomalydetection.forecast;
 import anomalydetection.TimeSeries;
 import anomalydetection.TimeSeriesPoint;
 
+/**
+ * @author Christian Claus Wiechmann, Sören Henning
+ *
+ */
 public class WeightedForecaster implements Forecaster {
 
 	public enum WeightMethod {
