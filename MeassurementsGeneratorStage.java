@@ -10,8 +10,10 @@ public class MeassurementsGeneratorStage extends AbstractProducerStage<Measureme
 	@Override
 	protected void execute() {
 
-		for (int i = 0; i < 1000; i++) {
-			Measurement measurement = new Measurement(Instant.now().plusSeconds(i), Math.random());
+		Instant now = Instant.now();
+
+		for (int i = 0; i < 3600; i++) {
+			Measurement measurement = new Measurement(now.plusSeconds(i), Math.random() * 1000);
 			this.outputPort.send(measurement);
 		}
 
