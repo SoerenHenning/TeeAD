@@ -19,7 +19,6 @@ public class AnomalyDetectionStage extends CompositeStage {
 	public AnomalyDetectionStage() {
 
 		// Create the stages
-		// final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage();
 		final ForecastStage forecaster = new ForecastStage(new MeanForecaster());
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
 		final ExtractorStage extractor = new ExtractorStage(new TimeSeries());
@@ -31,7 +30,6 @@ public class AnomalyDetectionStage extends CompositeStage {
 		this.inputPort = measurementDistributor.getInputPort();
 
 		// Connect the stages
-		// super.connectPorts(generator.getOutputPort(), measurementDistributor.getInputPort());
 		super.connectPorts(measurementDistributor.getNewOutputPort(), extractor.getInputPort());
 		super.connectPorts(extractor.getOutputPort(), normalizerStage.getInputPort());
 		super.connectPorts(normalizerStage.getOutputPort(), forecaster.getInputPort());
