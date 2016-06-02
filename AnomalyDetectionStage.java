@@ -16,6 +16,8 @@ public class AnomalyDetectionStage extends CompositeStage {
 
 	private final InputPort<Measurement> inputPort;
 
+	final Distributor<AnomalyScoredMeasurement> anomalyScoreDistributor = new Distributor<>(new CopyByReferenceStrategy());
+
 	public AnomalyDetectionStage() {
 
 		// Create the stages
@@ -25,7 +27,6 @@ public class AnomalyDetectionStage extends CompositeStage {
 		final ForecastStage forecaster = new ForecastStage(new MeanForecaster());
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
-		final Distributor<AnomalyScoredMeasurement> anomalyScoreDistributor = new Distributor<>(new CopyByReferenceStrategy());
 		final PrinterStage printer = new PrinterStage();
 		final StorageStage storager = new StorageStage();
 
@@ -44,14 +45,17 @@ public class AnomalyDetectionStage extends CompositeStage {
 
 	}
 
-	// TODO Name
-	public OutputPort<AnomalyScoredMeasurement> getNewOutputPort() {
-		// Distributor in Instance
-		// Distributor<AnomalyScoredMeasurement> distributor = new Distributor<>(new CopyByReferenceStrategy());
-		// create new filter stage: Filter filter = new Filter(threshold, gt/lt);
-		// distributor.getNewOutputPort() --> filter.getInputPort()
-		// return filter.getOutputPort()
-		return null; // TODO
+	public OutputPort<AnomalyScoredMeasurement> getNewOutputPort(final double threshold) {
+		return getNewOutputPort(new ThresholdFilter(threshold));
+	}
+
+	public OutputPort<AnomalyScoredMeasurement> getNewOutputPort(final double threshold, final ThresholdFilter.Comparator comparator) {
+		return getNewOutputPort(new ThresholdFilter(threshold, comparator));
+	}
+
+	private OutputPort<AnomalyScoredMeasurement> getNewOutputPort(final ThresholdFilter thresholdFilter) {
+		super.connectPorts(this.anomalyScoreDistributor.getNewOutputPort(), thresholdFilter.getInputPort());
+		return thresholdFilter.getOutputPort();
 	}
 
 	public InputPort<Measurement> getInputPort() {
