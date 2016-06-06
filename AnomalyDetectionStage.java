@@ -3,7 +3,8 @@ package anomalydetection;
 import java.time.Duration;
 
 import anomalydetection.aggregation.MeanAggregator;
-import anomalydetection.forecast.MeanForecaster;
+import anomalydetection.forecast.WeightedForecaster;
+import anomalydetection.forecast.WeightedForecaster.WeightMethod;
 import anomalydetection.measurement.AnomalyScoredMeasurement;
 import anomalydetection.measurement.Measurement;
 import teetime.framework.CompositeStage;
@@ -24,7 +25,7 @@ public class AnomalyDetectionStage extends CompositeStage {
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
 		final ExtractorStage extractor = new ExtractorStage(new TimeSeries());
 		final NormalizerStage normalizerStage = new NormalizerStage(Duration.ofMinutes(1), new MeanAggregator());
-		final ForecastStage forecaster = new ForecastStage(new MeanForecaster());
+		final ForecastStage forecaster = new ForecastStage(new WeightedForecaster(WeightMethod.LOGARITHMIC));
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
 		final PrinterStage printer = new PrinterStage();

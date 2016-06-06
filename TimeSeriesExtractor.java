@@ -14,6 +14,8 @@ public class TimeSeriesExtractor {
 	public TimeSeries extract(final Measurement measurement) {
 		TimeSeries timeSeries = new TimeSeries();
 
+		// TODO Filter just Points that are in investigation interval
+
 		for (TimeSeriesPoint timeSeriesPoint : this.timeSeries.getTimeSeriesPoints()) {
 			timeSeries.append(timeSeriesPoint);
 		}

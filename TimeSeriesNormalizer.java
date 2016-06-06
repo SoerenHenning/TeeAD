@@ -3,6 +3,8 @@ package anomalydetection;
 import java.time.Duration;
 import java.time.Instant;
 
+import com.google.common.collect.Lists;
+
 import anomalydetection.aggregation.Aggregator;
 
 public class TimeSeriesNormalizer {
@@ -24,10 +26,10 @@ public class TimeSeriesNormalizer {
 		TimeSeries equidistanteTimeSeries = new TimeSeries(); // TODO subclass
 
 		// TOOD first(), peak(),...
-		Instant intervalEnding = timeSeries.getTimeSeriesPoints().get(0).getTime().minus(this.stepSize);
+		Instant intervalEnding = timeSeries.getTimeSeriesPoints().get(timeSeries.getTimeSeriesPoints().size() - 1).getTime().minus(this.stepSize);
 		TimeSeries interval = new TimeSeries();
 
-		for (TimeSeriesPoint point : timeSeries.getTimeSeriesPoints()) {
+		for (TimeSeriesPoint point : Lists.reverse(timeSeries.getTimeSeriesPoints())) {
 			if (point.getTime().isBefore(intervalEnding)) {
 				// Aggregate Interval
 				// add aggregated value to equistantTimeSeries

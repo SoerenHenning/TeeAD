@@ -25,7 +25,7 @@ public class WeightedForecaster implements Forecaster {
 		double totalWeights = 0;
 
 		// more recent entry means more weight
-		int position = 0; // TODO Start with 0 or 1? (log(0) -> ?)
+		int position = 1; // Position > 0, because logarithmic forecast method
 		for (TimeSeriesPoint point : timeSeries.getTimeSeriesPoints()) {
 			final double weight = getWeight(position);
 			totalWeights += weight;
