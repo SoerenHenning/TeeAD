@@ -25,10 +25,10 @@ public class AnomalyDetectionStage extends CompositeStage {
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
 		final ExtractorStage extractor = new ExtractorStage(new TimeSeries());
 		final NormalizerStage normalizerStage = new NormalizerStage(Duration.ofMinutes(1), new MeanAggregator());
-		final ForecastStage forecaster = new ForecastStage(new WeightedForecaster(WeightMethod.LOGARITHMIC));
+		final ForecastStage forecaster = new ForecastStage(new WeightedForecaster(WeightMethod.LINEAR));
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
-		final PrinterStage printer = new PrinterStage();
+		final PrinterStage printer = new PrinterStage(); // TODO Temp
 		final StorageStage storager = new StorageStage();
 
 		this.inputPort = measurementDistributor.getInputPort();

@@ -3,6 +3,7 @@ package anomalydetection;
 import java.time.Duration;
 
 import anomalydetection.aggregation.Aggregator;
+import anomalydetection.timeseries.TimeSeries;
 import teetime.stage.basic.AbstractTransformation;
 
 public class NormalizerStage extends AbstractTransformation<TimeSeries, TimeSeries> {

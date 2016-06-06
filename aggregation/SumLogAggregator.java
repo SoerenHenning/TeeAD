@@ -2,7 +2,7 @@ package anomalydetection.aggregation;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-import anomalydetection.TimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 
 public class SumLogAggregator implements Aggregator {
 

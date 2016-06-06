@@ -2,7 +2,7 @@ package anomalydetection.forecast;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-import anomalydetection.TimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 
 public class MeanForecaster implements Forecaster {
 

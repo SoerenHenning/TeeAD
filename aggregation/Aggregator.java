@@ -1,6 +1,6 @@
 package anomalydetection.aggregation;
 
-import anomalydetection.TimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 
 public interface Aggregator {
 

@@ -1,6 +1,6 @@
 package anomalydetection.forecast;
 
-import anomalydetection.TimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 
 public interface Forecaster {
 

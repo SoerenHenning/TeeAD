@@ -1,4 +1,4 @@
-package anomalydetection;
+package anomalydetection.timeseries;
 
 import java.util.ArrayList;
 import java.util.List;

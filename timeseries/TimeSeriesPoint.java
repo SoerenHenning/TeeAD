@@ -1,4 +1,4 @@
-package anomalydetection;
+package anomalydetection.timeseries;
 
 import java.time.Instant;
 

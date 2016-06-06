@@ -1,7 +1,7 @@
 package anomalydetection.forecast;
 
-import anomalydetection.TimeSeries;
-import anomalydetection.TimeSeriesPoint;
+import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.TimeSeriesPoint;
 
 /**
  * @author Christian Claus Wiechmann, Sören Henning

@@ -6,6 +6,8 @@ import java.time.Instant;
 import com.google.common.collect.Lists;
 
 import anomalydetection.aggregation.Aggregator;
+import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.TimeSeriesPoint;
 
 public class TimeSeriesNormalizer {
 

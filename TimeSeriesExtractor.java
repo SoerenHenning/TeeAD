@@ -1,6 +1,8 @@
 package anomalydetection;
 
 import anomalydetection.measurement.Measurement;
+import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.TimeSeriesPoint;
 
 //TODO Name has to be reconsidered
 public class TimeSeriesExtractor {
