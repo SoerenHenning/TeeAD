@@ -6,14 +6,28 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+/**
+ *
+ *
+ * @author Sören Henning
+ *
+ */
 public class TimeSeries implements Iterable<TimeSeriesPoint> {
 
 	private final Deque<TimeSeriesPoint> timeSeriesPoints;
 
+	/**
+	 * Constructs an empty time series.
+	 */
 	public TimeSeries() {
 		this.timeSeriesPoints = new ArrayDeque<>();
 	}
 
+	/**
+	 * Constructs a time series containing the time series points of the
+	 * specified collection, in the order they are returned by the
+	 * collection's iterator.
+	 */
 	public TimeSeries(final Collection<TimeSeriesPoint> timeSeriesPoints) {
 		this.timeSeriesPoints = new ArrayDeque<>(timeSeriesPoints.size());
 		for (TimeSeriesPoint timeSeriesPoint : timeSeriesPoints) {
@@ -22,10 +36,17 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 		// TODO Catch exception to provide new
 	}
 
+	/**
+	 * Constructs a copy of the specified time series.
+	 */
 	public TimeSeries(final TimeSeries timeSeries) {
 		this.timeSeriesPoints = timeSeries.timeSeriesPoints;
 	}
 
+	/**
+	 * Appends a point at the end of this time series, so the point is the new
+	 * earliest point in this time series.
+	 */
 	public void appendBegin(final TimeSeriesPoint timeSeriesPoint) {
 		if (!this.timeSeriesPoints.isEmpty() && !timeSeriesPoint.getTime().isBefore(this.timeSeriesPoints.getFirst().getTime())) {
 			// TODO throw expection
@@ -34,6 +55,10 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 		this.timeSeriesPoints.addFirst(timeSeriesPoint);
 	}
 
+	/**
+	 * Appends a point at the end of this time series, so the point is the new
+	 * latest point in this time series.
+	 */
 	public void appendEnd(final TimeSeriesPoint timeSeriesPoint) {
 		if (!this.timeSeriesPoints.isEmpty() && !timeSeriesPoint.getTime().isAfter(this.timeSeriesPoints.getLast().getTime())) {
 			// TODO throw expection
@@ -42,26 +67,41 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 		this.timeSeriesPoints.addLast(timeSeriesPoint);
 	}
 
+	/**
+	 * Returns the first/earliest point of this time series, or {@Code null}
+	 * if this time series is empty.
+	 */
 	public TimeSeriesPoint getBegin() {
 		return this.timeSeriesPoints.peekFirst();
 	}
 
+	/**
+	 * Returns the last/latest point of this time series, or {@Code null}
+	 * if this time series is empty.
+	 */
 	public TimeSeriesPoint getEnd() {
 		return this.timeSeriesPoints.peekLast();
 	}
 
+	/**
+	 * Retrieves and removes the first/earliest point of this time series, or returns
+	 * {@Code null} if this time series is empty.
+	 */
 	public TimeSeriesPoint removeBegin() {
 		return this.timeSeriesPoints.pollFirst();
 	}
 
+	/**
+	 * Retrieves and removes the last/latest point of this time series, or returns
+	 * {@Code null} if this time series is empty.
+	 */
 	public TimeSeriesPoint removeEnd() {
 		return this.timeSeriesPoints.pollLast();
 	}
 
 	/**
 	 * Returns an iterator over the time series points in this time series. The
-	 * points will be returned in temporal order from the beginning of this
-	 * time series to its ending.
+	 * points will be returned in temporal order from earliest to latest.
 	 */
 	@Override
 	public Iterator<TimeSeriesPoint> iterator() {
@@ -70,11 +110,10 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 
 	/**
 	 * Returns an iterator over the time series points in this time series. The
-	 * points will be returned in temporal order from the ending of this
-	 * time series to its beginning.
+	 * points will be returned in temporal order from latest to earliest.
 	 */
 	public Iterator<TimeSeriesPoint> backwardsIterator() {
-		return this.timeSeriesPoints.descendingIterator(); // TODO
+		return this.timeSeriesPoints.descendingIterator();
 	}
 
 	/**
@@ -91,6 +130,10 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 		};
 	}
 
+	/**
+	 * Returns an array containing all of the values of the time series point
+	 * in this time series in temporal order from earliest to latest.
+	 */
 	public double[] toValuesArray() {
 		double[] array = new double[size()];
 		int i = 0;
@@ -101,14 +144,23 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 		return array;
 	}
 
+	/**
+	 * Returns a sequential Stream with this time series as its source.
+	 */
 	public Stream<TimeSeriesPoint> stream() {
 		return this.timeSeriesPoints.stream();
 	}
 
+	/**
+	 * Returns the number of time series points in this time series.
+	 */
 	public int size() {
 		return this.timeSeriesPoints.size();
 	}
 
+	/**
+	 * Returns {@code true} if this time series contains no time series points.
+	 */
 	public boolean isEmpty() {
 		return this.timeSeriesPoints.isEmpty();
 	}
