@@ -3,10 +3,9 @@ package anomalydetection;
 import java.time.Duration;
 import java.time.Instant;
 
-import com.google.common.collect.Lists;
-
 import anomalydetection.aggregation.Aggregator;
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.EquidistantTimeSeries;
+import anomalydetection.timeseries.NewTimeSeries;
 import anomalydetection.timeseries.TimeSeriesPoint;
 
 public class TimeSeriesNormalizer {
@@ -19,34 +18,33 @@ public class TimeSeriesNormalizer {
 		this.aggregator = aggregator;
 	}
 
-	public TimeSeries normalize(final TimeSeries timeSeries) {
+	public EquidistantTimeSeries normalize(final NewTimeSeries timeSeries) {
 
-		if (timeSeries.getTimeSeriesPoints().isEmpty()) {
-			return new TimeSeries();
+		if (timeSeries.isEmpty()) {
+			return new EquidistantTimeSeries(this.stepSize, Instant.MIN);
 		}
 
-		TimeSeries equidistanteTimeSeries = new TimeSeries(); // TODO subclass
+		EquidistantTimeSeries equidistanteTimeSeries = new EquidistantTimeSeries(this.stepSize, timeSeries.getEnd().getTime());
 
-		// TOOD first(), peak(),...
-		Instant intervalEnding = timeSeries.getTimeSeriesPoints().get(timeSeries.getTimeSeriesPoints().size() - 1).getTime().minus(this.stepSize);
-		TimeSeries interval = new TimeSeries();
+		Instant intervalEnding = timeSeries.getEnd().getTime().minus(this.stepSize);
+		NewTimeSeries interval = new NewTimeSeries();
 
-		for (TimeSeriesPoint point : Lists.reverse(timeSeries.getTimeSeriesPoints())) {
+		for (TimeSeriesPoint point : timeSeries.backwards()) {
 			if (point.getTime().isBefore(intervalEnding)) {
 				// Aggregate Interval
 				// add aggregated value to equistantTimeSeries
 				double aggregated = aggregator.aggregate(interval);
-				equidistanteTimeSeries.append(new TimeSeriesPoint(intervalEnding, aggregated));
+				equidistanteTimeSeries.appendBegin(aggregated);
 
 				// Make new interval
-				interval = new TimeSeries();
+				interval = new NewTimeSeries();
 				intervalEnding = intervalEnding.minus(this.stepSize);
 			}
-			interval.append(point);
+			interval.appendBegin(point);
 		}
 		// letztes interval abschließen
 		double aggregated = aggregator.aggregate(interval);
-		equidistanteTimeSeries.append(new TimeSeriesPoint(intervalEnding, aggregated));
+		equidistanteTimeSeries.appendBegin(aggregated);
 		// Redundater Code
 
 		return equidistanteTimeSeries;

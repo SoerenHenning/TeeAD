@@ -1,6 +1,6 @@
 package anomalydetection.forecast;
 
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.EquidistantTimeSeries;
 import anomalydetection.timeseries.TimeSeriesPoint;
 
 /**
@@ -20,13 +20,13 @@ public class WeightedForecaster implements Forecaster {
 	}
 
 	@Override
-	public double forecast(final TimeSeries timeSeries) {
+	public double forecast(final EquidistantTimeSeries timeSeries) {
 		double weightedSum = 0;
 		double totalWeights = 0;
 
 		// more recent entry means more weight
 		int position = 1; // Position > 0, because logarithmic forecast method
-		for (TimeSeriesPoint point : timeSeries.getTimeSeriesPoints()) {
+		for (TimeSeriesPoint point : timeSeries) {
 			final double weight = getWeight(position);
 			totalWeights += weight;
 			weightedSum += point.getValue() * weight;

@@ -2,13 +2,13 @@ package anomalydetection.aggregation;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.NewTimeSeries;
 
 public class SumAggregator implements Aggregator {
 
 	@Override
-	public double aggregate(final TimeSeries timeSeries) {
-		return StatUtils.sum(timeSeries.toArray());
+	public double aggregate(final NewTimeSeries timeSeries) {
+		return StatUtils.sum(timeSeries.toValuesArray());
 	}
 
 }

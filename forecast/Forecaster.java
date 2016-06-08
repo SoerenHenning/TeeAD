@@ -1,9 +1,9 @@
 package anomalydetection.forecast;
 
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.EquidistantTimeSeries;
 
 public interface Forecaster {
 
-	public double forecast(TimeSeries timeSeries);
+	public double forecast(final EquidistantTimeSeries timeSeries);
 
 }

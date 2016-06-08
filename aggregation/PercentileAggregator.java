@@ -2,7 +2,7 @@ package anomalydetection.aggregation;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.NewTimeSeries;
 
 public class PercentileAggregator implements Aggregator {
 
@@ -13,8 +13,8 @@ public class PercentileAggregator implements Aggregator {
 	}
 
 	@Override
-	public double aggregate(final TimeSeries timeSeries) {
-		return StatUtils.percentile(timeSeries.toArray(), this.getPercentile());
+	public double aggregate(final NewTimeSeries timeSeries) {
+		return StatUtils.percentile(timeSeries.toValuesArray(), this.getPercentile());
 	}
 
 	public double getPercentile() {

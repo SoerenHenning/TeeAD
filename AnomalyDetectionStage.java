@@ -7,6 +7,7 @@ import anomalydetection.forecast.WeightedForecaster;
 import anomalydetection.forecast.WeightedForecaster.WeightMethod;
 import anomalydetection.measurement.AnomalyScoredMeasurement;
 import anomalydetection.measurement.Measurement;
+import anomalydetection.timeseries.BoundedTimeSeries;
 import teetime.framework.CompositeStage;
 import teetime.framework.InputPort;
 import teetime.framework.OutputPort;
@@ -23,7 +24,7 @@ public class AnomalyDetectionStage extends CompositeStage {
 
 		// Create the stages
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
-		final ExtractorStage extractor = new ExtractorStage(new TimeSeries());
+		final ExtractorStage extractor = new ExtractorStage(new BoundedTimeSeries(Duration.ofHours(1)));
 		final NormalizerStage normalizerStage = new NormalizerStage(Duration.ofMinutes(1), new MeanAggregator());
 		final ForecastStage forecaster = new ForecastStage(new WeightedForecaster(WeightMethod.LINEAR));
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();

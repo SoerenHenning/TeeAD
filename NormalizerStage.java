@@ -3,10 +3,11 @@ package anomalydetection;
 import java.time.Duration;
 
 import anomalydetection.aggregation.Aggregator;
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.EquidistantTimeSeries;
+import anomalydetection.timeseries.NewTimeSeries;
 import teetime.stage.basic.AbstractTransformation;
 
-public class NormalizerStage extends AbstractTransformation<TimeSeries, TimeSeries> {
+public class NormalizerStage extends AbstractTransformation<NewTimeSeries, EquidistantTimeSeries> {
 
 	private final TimeSeriesNormalizer normalizer;
 
@@ -15,9 +16,9 @@ public class NormalizerStage extends AbstractTransformation<TimeSeries, TimeSeri
 	}
 
 	@Override
-	protected void execute(final TimeSeries timeSeries) {
+	protected void execute(final NewTimeSeries timeSeries) {
 
-		TimeSeries normalizedTimeSeries = this.normalizer.normalize(timeSeries);
+		EquidistantTimeSeries normalizedTimeSeries = this.normalizer.normalize(timeSeries);
 		this.outputPort.send(normalizedTimeSeries);
 
 	}

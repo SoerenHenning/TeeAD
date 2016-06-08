@@ -1,14 +1,15 @@
 package anomalydetection;
 
 import anomalydetection.measurement.Measurement;
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.BoundedTimeSeries;
+import anomalydetection.timeseries.NewTimeSeries;
 import teetime.stage.basic.AbstractTransformation;
 
-public class ExtractorStage extends AbstractTransformation<Measurement, TimeSeries> {
+public class ExtractorStage extends AbstractTransformation<Measurement, NewTimeSeries> {
 
 	private final TimeSeriesExtractor extractor;
 
-	public ExtractorStage(final TimeSeries timeSeries) {
+	public ExtractorStage(final BoundedTimeSeries timeSeries) {
 		this.extractor = new TimeSeriesExtractor(timeSeries);
 	}
 
