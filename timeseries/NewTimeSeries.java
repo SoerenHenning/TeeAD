@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 
@@ -88,6 +89,20 @@ public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 				return backwardsIterator();
 			}
 		};
+	}
+
+	public double[] toValuesArray() {
+		double[] array = new double[size()];
+		int i = 0;
+		for (final TimeSeriesPoint point : this.timeSeriesPoints) {
+			array[i] = point.getValue();
+			i++;
+		}
+		return array;
+	}
+
+	public Stream<TimeSeriesPoint> stream() {
+		return this.timeSeriesPoints.stream();
 	}
 
 	public int size() {

@@ -1,15 +1,13 @@
 package anomalydetection.forecast;
 
-import org.apache.commons.math3.stat.StatUtils;
-
-import anomalydetection.timeseries.TimeSeries;
+import anomalydetection.timeseries.EquidistantTimeSeries;
 
 public class MeanForecaster implements Forecaster {
 
 	@Override
-	public double forecast(final TimeSeries timeSeries) {
+	public double forecast(final EquidistantTimeSeries timeSeries) {
 
-		return StatUtils.mean(timeSeries.toArray(true));
+		return timeSeries.stream().mapToDouble(p -> p.getValue()).sum() / timeSeries.size();
 
 	}
 
