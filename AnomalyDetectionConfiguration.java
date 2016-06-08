@@ -1,5 +1,7 @@
 package anomalydetection;
 
+import java.time.Duration;
+
 import teetime.framework.Configuration;
 
 public class AnomalyDetectionConfiguration extends Configuration {
@@ -7,7 +9,8 @@ public class AnomalyDetectionConfiguration extends Configuration {
 	public AnomalyDetectionConfiguration() {
 
 		// Create the stages
-		final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage();
+		final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage(x -> 500 * Math.sin(x / 60) + 2000, 250, 0.01, 1000, Duration.ofSeconds(1),
+				900);
 		final AnomalyDetectionStage anomalyDetector = new AnomalyDetectionStage();
 		final SimpleAlertStage alerter = new SimpleAlertStage();
 
