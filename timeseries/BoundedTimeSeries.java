@@ -2,7 +2,6 @@ package anomalydetection.timeseries;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collection;
 
 public class BoundedTimeSeries extends NewTimeSeries {
 
@@ -13,15 +12,26 @@ public class BoundedTimeSeries extends NewTimeSeries {
 		this.capacity = capacity;
 	}
 
-	public BoundedTimeSeries(final Duration capacity, final Collection<TimeSeriesPoint> timeSeriesPoints) {
-		super(timeSeriesPoints);
+	public BoundedTimeSeries(final Duration capacity, final NewTimeSeries timeSeries) {
+		super(timeSeries);
 		this.capacity = capacity;
 		removeOverflow();
 	}
 
+	public BoundedTimeSeries(final BoundedTimeSeries timeSeries) {
+		super(timeSeries);
+		this.capacity = timeSeries.getCapacity();
+	}
+
 	@Override
-	public void add(final TimeSeriesPoint point) {
-		super.add(point);
+	public void appendBegin(final TimeSeriesPoint timeSeriesPoint) {
+		super.appendBegin(timeSeriesPoint);
+		removeOverflow();
+	}
+
+	@Override
+	public void appendEnd(final TimeSeriesPoint timeSeriesPoint) {
+		super.appendEnd(timeSeriesPoint);
 		removeOverflow();
 	}
 
@@ -30,12 +40,12 @@ public class BoundedTimeSeries extends NewTimeSeries {
 	}
 
 	private void removeOverflow() {
-		if (this.timeSeriesPoints.size() <= 0) {
+		if (this.timeSeriesPoints.size() == 0) {
 			return;
 		}
-		final Instant firstTime = this.timeSeriesPoints.peek().getTime();
-		while (timeSeriesPoints.size() > 0 && timeSeriesPoints.peekLast().getTime().isBefore(firstTime.minus(capacity))) {
-			this.timeSeriesPoints.removeLast();
+		final Instant limit = super.getEnd().getTime().minus(this.capacity);
+		while (timeSeriesPoints.size() > 0 && super.getBegin().getTime().isBefore(limit)) {
+			super.removeBegin();
 		}
 	}
 }

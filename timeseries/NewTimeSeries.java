@@ -49,12 +49,12 @@ public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 		return this.timeSeriesPoints.peekLast();
 	}
 
-	public void removeBegin() {
-		this.timeSeriesPoints.pollFirst();
+	public TimeSeriesPoint removeBegin() {
+		return this.timeSeriesPoints.pollFirst();
 	}
 
-	public void removeEnd() {
-		this.timeSeriesPoints.pollLast();
+	public TimeSeriesPoint removeEnd() {
+		return this.timeSeriesPoints.pollLast();
 	}
 
 	// TODO remove
@@ -92,6 +92,10 @@ public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 
 	public int size() {
 		return this.timeSeriesPoints.size();
+	}
+
+	public boolean isEmpty() {
+		return this.timeSeriesPoints.isEmpty();
 	}
 
 	@Override

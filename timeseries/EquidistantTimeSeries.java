@@ -2,40 +2,83 @@ package anomalydetection.timeseries;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collection;
 
 public class EquidistantTimeSeries extends NewTimeSeries {
 
 	private final Duration distance;
 
-	// private Instant start;
-	// TODO Feld start, falls series leer
+	private Instant begin;
 
-	public EquidistantTimeSeries(final Duration distance) {
+	public EquidistantTimeSeries(final Duration distance, final Instant begin) {
 		super();
 		this.distance = distance;
+		this.begin = begin;
 	}
 
-	public EquidistantTimeSeries(final Duration distance, final Collection<TimeSeriesPoint> timeSeriesPoints) {
-		super(timeSeriesPoints);
+	public EquidistantTimeSeries(final Duration distance, final NewTimeSeries timeSeries) {
+		super(timeSeries);
 		this.distance = distance;
+	}
+	// TODO copy constructor
+
+	public void appendBegin(final double value) {
+		super.appendBegin(new TimeSeriesPoint(getNextBeginTime(), value));
+	}
+
+	public void appendEnd(final double value) {
+		super.appendEnd(new TimeSeriesPoint(getNextEndTime(), value));
 	}
 
 	@Override
-	public void add(final TimeSeriesPoint point) {
-		super.add(point);
+	public void appendBegin(final TimeSeriesPoint timeSeriesPoint) {
+		if (!timeSeriesPoint.getTime().equals(getNextBeginTime())) {
+			// TODO throw exception
+		}
+		super.appendBegin(timeSeriesPoint);
 	}
 
-	public void add(final double value) {
-		super.add(new TimeSeriesPoint(getNextTime(), value));
+	@Override
+	public void appendEnd(final TimeSeriesPoint timeSeriesPoint) {
+		if (!timeSeriesPoint.getTime().equals(getNextEndTime())) {
+			// TODO throw exception
+		}
+		super.appendEnd(timeSeriesPoint);
+	}
+
+	@Override
+	public TimeSeriesPoint removeBegin() {
+		final TimeSeriesPoint point = super.removeBegin();
+		if (isEmpty()) {
+			this.begin = point.getTime();
+		}
+		return point;
+	}
+
+	@Override
+	public TimeSeriesPoint removeEnd() {
+		final TimeSeriesPoint point = super.removeEnd();
+		if (isEmpty()) {
+			this.begin = point.getTime();
+		}
+		return point;
 	}
 
 	public Duration getDistance() {
 		return distance;
 	}
 
-	private Instant getNextTime() {
-		return this.timeSeriesPoints.getFirst().getTime().plus(this.distance);
+	private Instant getNextBeginTime() {
+		if (isEmpty()) {
+			return this.begin;
+		}
+		return super.getEnd().getTime().plus(this.distance);
+	}
+
+	private Instant getNextEndTime() {
+		if (isEmpty()) {
+			return this.begin;
+		}
+		return super.getBegin().getTime().minus(this.distance);
 	}
 
 }
