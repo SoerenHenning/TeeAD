@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 
-	private final Deque<TimeSeriesPoint> timeSeriesPoints; // TODO make private
+	private final Deque<TimeSeriesPoint> timeSeriesPoints;
 
 	public NewTimeSeries() {
 		this.timeSeriesPoints = new ArrayDeque<>();
@@ -57,11 +57,6 @@ public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 		return this.timeSeriesPoints.pollLast();
 	}
 
-	// TODO remove
-	public void add(final TimeSeriesPoint point) {
-		this.timeSeriesPoints.push(point);
-	}
-
 	/**
 	 * Returns an iterator over the time series points in this time series. The
 	 * points will be returned in temporal order from the beginning of this
@@ -81,6 +76,11 @@ public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 		return this.timeSeriesPoints.descendingIterator(); // TODO
 	}
 
+	/**
+	 * Returns an iterable that iterates the points backwards. It is backed by
+	 * the time series, so changes to the time series are reflected in the
+	 * iterable, and vice-versa.
+	 */
 	public Iterable<TimeSeriesPoint> backwards() {
 		return new Iterable<TimeSeriesPoint>() {
 			@Override
