@@ -19,7 +19,12 @@ public class EquidistantTimeSeries extends NewTimeSeries {
 		super(timeSeries);
 		this.distance = distance;
 	}
-	// TODO copy constructor
+
+	public EquidistantTimeSeries(final EquidistantTimeSeries timeSeries) {
+		super(timeSeries);
+		this.distance = timeSeries.distance;
+		this.begin = timeSeries.begin;
+	}
 
 	public void appendBegin(final double value) {
 		super.appendBegin(new TimeSeriesPoint(getNextBeginTime(), value));
@@ -70,17 +75,11 @@ public class EquidistantTimeSeries extends NewTimeSeries {
 	}
 
 	private Instant getNextBeginTime() {
-		if (isEmpty()) {
-			return this.begin;
-		}
-		return super.getEnd().getTime().plus(this.distance);
+		return isEmpty() ? this.begin : super.getEnd().getTime().plus(this.distance);
 	}
 
 	private Instant getNextEndTime() {
-		if (isEmpty()) {
-			return this.begin;
-		}
-		return super.getBegin().getTime().minus(this.distance);
+		return isEmpty() ? this.begin : super.getBegin().getTime().minus(this.distance);
 	}
 
 }
