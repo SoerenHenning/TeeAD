@@ -40,11 +40,11 @@ public class BoundedTimeSeries extends NewTimeSeries {
 	}
 
 	private void removeOverflow() {
-		if (this.timeSeriesPoints.size() == 0) {
+		if (size() == 0) {
 			return;
 		}
 		final Instant limit = super.getEnd().getTime().minus(this.capacity);
-		while (timeSeriesPoints.size() > 0 && super.getBegin().getTime().isBefore(limit)) {
+		while (size() > 0 && super.getBegin().getTime().isBefore(limit)) {
 			super.removeBegin();
 		}
 	}

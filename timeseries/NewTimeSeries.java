@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 
-	protected final Deque<TimeSeriesPoint> timeSeriesPoints; // TODO make private
+	private final Deque<TimeSeriesPoint> timeSeriesPoints; // TODO make private
 
 	public NewTimeSeries() {
 		this.timeSeriesPoints = new ArrayDeque<>();
