@@ -7,24 +7,87 @@ import java.util.Iterator;
 
 public class NewTimeSeries implements Iterable<TimeSeriesPoint> {
 
-	protected final Deque<TimeSeriesPoint> timeSeriesPoints;
+	protected final Deque<TimeSeriesPoint> timeSeriesPoints; // TODO make private
 
 	public NewTimeSeries() {
 		this.timeSeriesPoints = new ArrayDeque<>();
 	}
 
 	public NewTimeSeries(final Collection<TimeSeriesPoint> timeSeriesPoints) {
-		this.timeSeriesPoints = new ArrayDeque<>(timeSeriesPoints);
+		this.timeSeriesPoints = new ArrayDeque<>(timeSeriesPoints.size());
+		for (TimeSeriesPoint timeSeriesPoint : timeSeriesPoints) {
+			appendEnd(timeSeriesPoint);
+		}
+		// TODO Catch exception to provide new
 	}
 
+	public NewTimeSeries(final NewTimeSeries timeSeries) {
+		this.timeSeriesPoints = timeSeries.timeSeriesPoints;
+	}
+
+	public void appendBegin(final TimeSeriesPoint timeSeriesPoint) {
+		if (!this.timeSeriesPoints.isEmpty() && !timeSeriesPoint.getTime().isBefore(this.timeSeriesPoints.getFirst().getTime())) {
+			// TODO throw expection
+		}
+
+		this.timeSeriesPoints.addFirst(timeSeriesPoint);
+	}
+
+	public void appendEnd(final TimeSeriesPoint timeSeriesPoint) {
+		if (!this.timeSeriesPoints.isEmpty() && !timeSeriesPoint.getTime().isAfter(this.timeSeriesPoints.getLast().getTime())) {
+			// TODO throw expection
+		}
+
+		this.timeSeriesPoints.addLast(timeSeriesPoint);
+	}
+
+	public TimeSeriesPoint getBegin() {
+		return this.timeSeriesPoints.peekFirst();
+	}
+
+	public TimeSeriesPoint getEnd() {
+		return this.timeSeriesPoints.peekLast();
+	}
+
+	public void removeBegin() {
+		this.timeSeriesPoints.pollFirst();
+	}
+
+	public void removeEnd() {
+		this.timeSeriesPoints.pollLast();
+	}
+
+	// TODO remove
 	public void add(final TimeSeriesPoint point) {
 		this.timeSeriesPoints.push(point);
 	}
 
+	/**
+	 * Returns an iterator over the time series points in this time series. The
+	 * points will be returned in temporal order from the beginning of this
+	 * time series to its ending.
+	 */
 	@Override
-	// TODO check if own iterator is useful
 	public Iterator<TimeSeriesPoint> iterator() {
 		return this.timeSeriesPoints.iterator();
+	}
+
+	/**
+	 * Returns an iterator over the time series points in this time series. The
+	 * points will be returned in temporal order from the ending of this
+	 * time series to its beginning.
+	 */
+	public Iterator<TimeSeriesPoint> backwardsIterator() {
+		return this.timeSeriesPoints.descendingIterator(); // TODO
+	}
+
+	public Iterable<TimeSeriesPoint> backwards() {
+		return new Iterable<TimeSeriesPoint>() {
+			@Override
+			public Iterator<TimeSeriesPoint> iterator() {
+				return backwardsIterator();
+			}
+		};
 	}
 
 	public int size() {

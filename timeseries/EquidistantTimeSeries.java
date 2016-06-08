@@ -8,6 +8,9 @@ public class EquidistantTimeSeries extends NewTimeSeries {
 
 	private final Duration distance;
 
+	// private Instant start;
+	// TODO Feld start, falls series leer
+
 	public EquidistantTimeSeries(final Duration distance) {
 		super();
 		this.distance = distance;
