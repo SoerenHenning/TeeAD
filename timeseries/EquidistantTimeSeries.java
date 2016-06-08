@@ -33,6 +33,7 @@ public class EquidistantTimeSeries extends NewTimeSeries {
 	public void appendBegin(final TimeSeriesPoint timeSeriesPoint) {
 		if (!timeSeriesPoint.getTime().equals(getNextBeginTime())) {
 			// TODO throw exception
+			throw new IllegalArgumentException("Point does not fit in time series. Expected time: " + getNextBeginTime());
 		}
 		super.appendBegin(timeSeriesPoint);
 	}
@@ -41,6 +42,7 @@ public class EquidistantTimeSeries extends NewTimeSeries {
 	public void appendEnd(final TimeSeriesPoint timeSeriesPoint) {
 		if (!timeSeriesPoint.getTime().equals(getNextEndTime())) {
 			// TODO throw exception
+			throw new IllegalArgumentException("Point does not fit in time series. Expected time: " + getNextEndTime());
 		}
 		super.appendEnd(timeSeriesPoint);
 	}
