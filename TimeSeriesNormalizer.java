@@ -5,7 +5,7 @@ import java.time.Instant;
 
 import anomalydetection.aggregation.Aggregator;
 import anomalydetection.timeseries.EquidistantTimeSeries;
-import anomalydetection.timeseries.NewTimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 import anomalydetection.timeseries.TimeSeriesPoint;
 
 public class TimeSeriesNormalizer {
@@ -18,7 +18,7 @@ public class TimeSeriesNormalizer {
 		this.aggregator = aggregator;
 	}
 
-	public EquidistantTimeSeries normalize(final NewTimeSeries timeSeries) {
+	public EquidistantTimeSeries normalize(final TimeSeries timeSeries) {
 
 		if (timeSeries.isEmpty()) {
 			return new EquidistantTimeSeries(this.stepSize, Instant.MIN);
@@ -27,7 +27,7 @@ public class TimeSeriesNormalizer {
 		EquidistantTimeSeries equidistanteTimeSeries = new EquidistantTimeSeries(this.stepSize, timeSeries.getEnd().getTime());
 
 		Instant intervalEnding = timeSeries.getEnd().getTime().minus(this.stepSize);
-		NewTimeSeries interval = new NewTimeSeries();
+		TimeSeries interval = new TimeSeries();
 
 		for (TimeSeriesPoint point : timeSeries.backwards()) {
 			if (point.getTime().isBefore(intervalEnding)) {
@@ -37,7 +37,7 @@ public class TimeSeriesNormalizer {
 				equidistanteTimeSeries.appendBegin(aggregated);
 
 				// Make new interval
-				interval = new NewTimeSeries();
+				interval = new TimeSeries();
 				intervalEnding = intervalEnding.minus(this.stepSize);
 			}
 			interval.appendBegin(point);

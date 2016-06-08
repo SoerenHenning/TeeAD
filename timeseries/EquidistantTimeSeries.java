@@ -3,7 +3,7 @@ package anomalydetection.timeseries;
 import java.time.Duration;
 import java.time.Instant;
 
-public class EquidistantTimeSeries extends NewTimeSeries {
+public class EquidistantTimeSeries extends TimeSeries {
 
 	private final Duration distance;
 
@@ -15,7 +15,7 @@ public class EquidistantTimeSeries extends NewTimeSeries {
 		this.begin = begin;
 	}
 
-	public EquidistantTimeSeries(final Duration distance, final NewTimeSeries timeSeries) {
+	public EquidistantTimeSeries(final Duration distance, final TimeSeries timeSeries) {
 		super(timeSeries);
 		this.distance = distance;
 	}

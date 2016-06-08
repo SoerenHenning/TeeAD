@@ -2,10 +2,10 @@ package anomalydetection;
 
 import anomalydetection.measurement.Measurement;
 import anomalydetection.timeseries.BoundedTimeSeries;
-import anomalydetection.timeseries.NewTimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 import teetime.stage.basic.AbstractTransformation;
 
-public class ExtractorStage extends AbstractTransformation<Measurement, NewTimeSeries> {
+public class ExtractorStage extends AbstractTransformation<Measurement, TimeSeries> {
 
 	private final TimeSeriesExtractor extractor;
 

@@ -4,10 +4,10 @@ import java.time.Duration;
 
 import anomalydetection.aggregation.Aggregator;
 import anomalydetection.timeseries.EquidistantTimeSeries;
-import anomalydetection.timeseries.NewTimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 import teetime.stage.basic.AbstractTransformation;
 
-public class NormalizerStage extends AbstractTransformation<NewTimeSeries, EquidistantTimeSeries> {
+public class NormalizerStage extends AbstractTransformation<TimeSeries, EquidistantTimeSeries> {
 
 	private final TimeSeriesNormalizer normalizer;
 
@@ -16,7 +16,7 @@ public class NormalizerStage extends AbstractTransformation<NewTimeSeries, Equid
 	}
 
 	@Override
-	protected void execute(final NewTimeSeries timeSeries) {
+	protected void execute(final TimeSeries timeSeries) {
 
 		EquidistantTimeSeries normalizedTimeSeries = this.normalizer.normalize(timeSeries);
 		this.outputPort.send(normalizedTimeSeries);

@@ -1,27 +1,98 @@
 package anomalydetection.timeseries;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
-public class TimeSeries {
+public class TimeSeries implements Iterable<TimeSeriesPoint> {
 
-	private final List<TimeSeriesPoint> timeSeriesPoints = new ArrayList<>();
+	private final Deque<TimeSeriesPoint> timeSeriesPoints;
 
-	public void append(final TimeSeriesPoint timeSeriesPoint) {
-		timeSeriesPoints.add(timeSeriesPoint);
+	public TimeSeries() {
+		this.timeSeriesPoints = new ArrayDeque<>();
 	}
 
-	public List<TimeSeriesPoint> getTimeSeriesPoints() {
-		return timeSeriesPoints;
+	public TimeSeries(final Collection<TimeSeriesPoint> timeSeriesPoints) {
+		this.timeSeriesPoints = new ArrayDeque<>(timeSeriesPoints.size());
+		for (TimeSeriesPoint timeSeriesPoint : timeSeriesPoints) {
+			appendEnd(timeSeriesPoint);
+		}
+		// TODO Catch exception to provide new
 	}
 
-	public double[] toArray() {
-		return toArray(false);
+	public TimeSeries(final TimeSeries timeSeries) {
+		this.timeSeriesPoints = timeSeries.timeSeriesPoints;
 	}
 
-	public double[] toArray(final boolean withoutNaNs) {
-		final int size = size(withoutNaNs);
-		double[] array = new double[size];
+	public void appendBegin(final TimeSeriesPoint timeSeriesPoint) {
+		if (!this.timeSeriesPoints.isEmpty() && !timeSeriesPoint.getTime().isBefore(this.timeSeriesPoints.getFirst().getTime())) {
+			// TODO throw expection
+		}
+
+		this.timeSeriesPoints.addFirst(timeSeriesPoint);
+	}
+
+	public void appendEnd(final TimeSeriesPoint timeSeriesPoint) {
+		if (!this.timeSeriesPoints.isEmpty() && !timeSeriesPoint.getTime().isAfter(this.timeSeriesPoints.getLast().getTime())) {
+			// TODO throw expection
+		}
+
+		this.timeSeriesPoints.addLast(timeSeriesPoint);
+	}
+
+	public TimeSeriesPoint getBegin() {
+		return this.timeSeriesPoints.peekFirst();
+	}
+
+	public TimeSeriesPoint getEnd() {
+		return this.timeSeriesPoints.peekLast();
+	}
+
+	public TimeSeriesPoint removeBegin() {
+		return this.timeSeriesPoints.pollFirst();
+	}
+
+	public TimeSeriesPoint removeEnd() {
+		return this.timeSeriesPoints.pollLast();
+	}
+
+	/**
+	 * Returns an iterator over the time series points in this time series. The
+	 * points will be returned in temporal order from the beginning of this
+	 * time series to its ending.
+	 */
+	@Override
+	public Iterator<TimeSeriesPoint> iterator() {
+		return this.timeSeriesPoints.iterator();
+	}
+
+	/**
+	 * Returns an iterator over the time series points in this time series. The
+	 * points will be returned in temporal order from the ending of this
+	 * time series to its beginning.
+	 */
+	public Iterator<TimeSeriesPoint> backwardsIterator() {
+		return this.timeSeriesPoints.descendingIterator(); // TODO
+	}
+
+	/**
+	 * Returns an iterable that iterates the points backwards. It is backed by
+	 * the time series, so changes to the time series are reflected in the
+	 * iterable, and vice-versa.
+	 */
+	public Iterable<TimeSeriesPoint> backwards() {
+		return new Iterable<TimeSeriesPoint>() {
+			@Override
+			public Iterator<TimeSeriesPoint> iterator() {
+				return backwardsIterator();
+			}
+		};
+	}
+
+	public double[] toValuesArray() {
+		double[] array = new double[size()];
 		int i = 0;
 		for (final TimeSeriesPoint point : this.timeSeriesPoints) {
 			array[i] = point.getValue();
@@ -30,22 +101,20 @@ public class TimeSeries {
 		return array;
 	}
 
+	public Stream<TimeSeriesPoint> stream() {
+		return this.timeSeriesPoints.stream();
+	}
+
 	public int size() {
-		return size(false);
+		return this.timeSeriesPoints.size();
 	}
 
-	public int size(final boolean withoutNaNs) {
-		int size = 0;
-		if (withoutNaNs) {
-			for (final TimeSeriesPoint point : this.timeSeriesPoints) {
-				if (!Double.isNaN(point.getValue())) {
-					size++;
-				}
-			}
-		} else {
-			size = this.timeSeriesPoints.size();
-		}
-		return size;
+	public boolean isEmpty() {
+		return this.timeSeriesPoints.isEmpty();
 	}
 
+	@Override
+	public String toString() {
+		return this.timeSeriesPoints.toString();
+	}
 }

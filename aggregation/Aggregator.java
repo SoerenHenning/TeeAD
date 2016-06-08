@@ -1,9 +1,9 @@
 package anomalydetection.aggregation;
 
-import anomalydetection.timeseries.NewTimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 
 public interface Aggregator {
 
-	public double aggregate(final NewTimeSeries timeSeries);
+	public double aggregate(final TimeSeries timeSeries);
 
 }

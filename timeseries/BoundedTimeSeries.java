@@ -3,7 +3,7 @@ package anomalydetection.timeseries;
 import java.time.Duration;
 import java.time.Instant;
 
-public class BoundedTimeSeries extends NewTimeSeries {
+public class BoundedTimeSeries extends TimeSeries {
 
 	private final Duration capacity;
 
@@ -12,7 +12,7 @@ public class BoundedTimeSeries extends NewTimeSeries {
 		this.capacity = capacity;
 	}
 
-	public BoundedTimeSeries(final Duration capacity, final NewTimeSeries timeSeries) {
+	public BoundedTimeSeries(final Duration capacity, final TimeSeries timeSeries) {
 		super(timeSeries);
 		this.capacity = capacity;
 		removeOverflow();

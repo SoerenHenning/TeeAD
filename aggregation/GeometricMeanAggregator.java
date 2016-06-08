@@ -2,12 +2,12 @@ package anomalydetection.aggregation;
 
 import org.apache.commons.math3.stat.StatUtils;
 
-import anomalydetection.timeseries.NewTimeSeries;
+import anomalydetection.timeseries.TimeSeries;
 
 public class GeometricMeanAggregator implements Aggregator {
 
 	@Override
-	public double aggregate(final NewTimeSeries timeSeries) {
+	public double aggregate(final TimeSeries timeSeries) {
 		return StatUtils.geometricMean(timeSeries.toValuesArray());
 	}
 
