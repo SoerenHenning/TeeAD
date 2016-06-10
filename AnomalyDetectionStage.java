@@ -1,5 +1,6 @@
 package anomalydetection;
 
+import java.io.File;
 import java.time.Duration;
 
 import anomalydetection.aggregation.MeanAggregator;
@@ -30,7 +31,7 @@ public class AnomalyDetectionStage extends CompositeStage {
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
 		final PrinterStage printer = new PrinterStage(); // TODO Temp
-		final JSONExporter jsonExporter = new JSONExporter(); // TODO Temp
+		final JSONExporter jsonExporter = new JSONExporter(new File("values.json")); // TODO Temp
 		final StorageStage storager = new StorageStage();
 
 		this.inputPort = measurementDistributor.getInputPort();

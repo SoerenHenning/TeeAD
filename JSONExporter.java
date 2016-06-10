@@ -1,5 +1,6 @@
 package anomalydetection;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -15,9 +16,9 @@ public class JSONExporter extends AbstractConsumerStage<AnomalyScoredMeasurement
 	private final JSONWriter writer;
 	private final Writer baseWriter;
 
-	public JSONExporter() {
+	public JSONExporter(final File file) {
 		try {
-			this.baseWriter = new FileWriter("values.json");
+			this.baseWriter = new FileWriter(file);
 			this.writer = new JSONWriter(this.baseWriter);
 			writer.array();
 		} catch (JSONException | IOException e) {
@@ -34,16 +35,14 @@ public class JSONExporter extends AbstractConsumerStage<AnomalyScoredMeasurement
 			writer.key("prediction").value(measurement.getPrediction());
 			writer.key("anomalyscore").value(measurement.getAnomalyScore());
 			writer.endObject();
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (JSONException e) {
+			throw new IllegalStateException(e);
 		}
 
 	}
 
 	@Override
 	public void onTerminating() throws Exception {
-
 		writer.endArray();
 		baseWriter.close();
 

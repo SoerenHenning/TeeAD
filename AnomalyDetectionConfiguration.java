@@ -10,7 +10,7 @@ public class AnomalyDetectionConfiguration extends Configuration {
 
 		// Create the stages
 		final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage(x -> 500 * Math.sin(x / 60) + 2000, 250, 0.01, 1000, Duration.ofSeconds(1),
-				900);
+				3600);
 		final AnomalyDetectionStage anomalyDetector = new AnomalyDetectionStage();
 		final SimpleAlertStage alerter = new SimpleAlertStage();
 
