@@ -4,8 +4,7 @@ import java.io.File;
 import java.time.Duration;
 
 import anomalydetection.aggregation.MeanAggregator;
-import anomalydetection.forecast.WeightedForecaster;
-import anomalydetection.forecast.WeightedForecaster.WeightMethod;
+import anomalydetection.forecast.RegressionForecaster;
 import anomalydetection.measurement.AnomalyScoredMeasurement;
 import anomalydetection.measurement.Measurement;
 import anomalydetection.timeseries.BoundedTimeSeries;
@@ -27,7 +26,7 @@ public class AnomalyDetectionStage extends CompositeStage {
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
 		final ExtractorStage extractor = new ExtractorStage(new BoundedTimeSeries(Duration.ofHours(1)));
 		final NormalizerStage normalizerStage = new NormalizerStage(Duration.ofSeconds(5), new MeanAggregator());
-		final ForecastStage forecaster = new ForecastStage(new WeightedForecaster(WeightMethod.LINEAR));
+		final ForecastStage forecaster = new ForecastStage(new RegressionForecaster());
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
 		final PrinterStage printer = new PrinterStage(); // TODO Temp
