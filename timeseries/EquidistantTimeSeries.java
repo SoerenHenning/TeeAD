@@ -74,11 +74,11 @@ public class EquidistantTimeSeries extends TimeSeries {
 		return distance;
 	}
 
-	private Instant getNextBeginTime() {
+	public Instant getNextBeginTime() {
 		return isEmpty() ? this.begin : super.getEnd().getTime().plus(this.distance);
 	}
 
-	private Instant getNextEndTime() {
+	public Instant getNextEndTime() {
 		return isEmpty() ? this.begin : super.getBegin().getTime().minus(this.distance);
 	}
 
