@@ -6,13 +6,15 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import anomalydetection.util.BackwardsIterable;
+
 /**
  *
  *
  * @author Sören Henning
  *
  */
-public class TimeSeries implements Iterable<TimeSeriesPoint> {
+public class TimeSeries implements Iterable<TimeSeriesPoint>, BackwardsIterable<TimeSeriesPoint> {
 
 	private final Deque<TimeSeriesPoint> timeSeriesPoints;
 
@@ -112,22 +114,9 @@ public class TimeSeries implements Iterable<TimeSeriesPoint> {
 	 * Returns an iterator over the time series points in this time series. The
 	 * points will be returned in temporal order from latest to earliest.
 	 */
+	@Override
 	public Iterator<TimeSeriesPoint> backwardsIterator() {
 		return this.timeSeriesPoints.descendingIterator();
-	}
-
-	/**
-	 * Returns an iterable that iterates the points backwards. It is backed by
-	 * the time series, so changes to the time series are reflected in the
-	 * iterable, and vice-versa.
-	 */
-	public Iterable<TimeSeriesPoint> backwards() {
-		return new Iterable<TimeSeriesPoint>() {
-			@Override
-			public Iterator<TimeSeriesPoint> iterator() {
-				return backwardsIterator();
-			}
-		};
 	}
 
 	/**
