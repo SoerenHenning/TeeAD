@@ -26,7 +26,7 @@ public abstract class AbstractRForecaster implements Forecaster {
 	public final double forecast(final EquidistantTimeSeries timeSeries) {
 		// TODO Exception Handling
 		try {
-			performRForecast(timeSeries);
+			return performRForecast(timeSeries);
 		} catch (REXPMismatchException | REngineException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
