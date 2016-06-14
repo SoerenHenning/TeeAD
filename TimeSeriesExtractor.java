@@ -15,13 +15,14 @@ public class TimeSeriesExtractor {
 	}
 
 	public TimeSeries extract(final Measurement measurement) {
-		final TimeSeries timeSeries = new TimeSeries(this.timeSeries);
+
+		final TimeSeries resultingTimeSeries = new TimeSeries(this.timeSeries);
 
 		// TODO Filter just Points that are in investigation interval
 
 		this.timeSeries.appendEnd(new TimeSeriesPoint(measurement.getTime(), measurement.getValue()));
 
-		return timeSeries;
+		return resultingTimeSeries;
 	}
 
 }

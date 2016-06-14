@@ -9,6 +9,10 @@ public class RegressionForecaster implements Forecaster {
 
 	@Override
 	public double forecast(final EquidistantTimeSeries timeSeries) {
+		if (timeSeries.isEmpty()) {
+			return 0; // TODO Double.NaN
+		}
+
 		final SimpleRegression regression = new SimpleRegression();
 
 		for (TimeSeriesPoint point : timeSeries) {

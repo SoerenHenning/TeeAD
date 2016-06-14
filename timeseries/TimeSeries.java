@@ -42,7 +42,7 @@ public class TimeSeries implements Iterable<TimeSeriesPoint>, BackwardsIterable<
 	 * Constructs a copy of the specified time series.
 	 */
 	public TimeSeries(final TimeSeries timeSeries) {
-		this.timeSeriesPoints = timeSeries.timeSeriesPoints;
+		this.timeSeriesPoints = new ArrayDeque<>(timeSeries.timeSeriesPoints);
 	}
 
 	/**

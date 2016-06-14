@@ -13,6 +13,11 @@ public class ARIMAForecaster extends AbstractRForecaster {
 
 	@Override
 	protected double performRForecast(final EquidistantTimeSeries timeSeries) throws REXPMismatchException, REngineException {
+
+		if (timeSeries.isEmpty()) {
+			return 0; // TODO
+		}
+
 		// Transfer time series to R
 		super.rConnection.assign("timeSeries", timeSeries.toValuesArray());
 		// Do ARIMA forecast on time Series
