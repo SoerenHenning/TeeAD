@@ -1,10 +1,9 @@
 package anomalydetection;
 
-import java.io.File;
 import java.time.Duration;
 
-import anomalydetection.aggregation.MeanAggregator;
-import anomalydetection.forecast.RegressionForecaster;
+import anomalydetection.aggregation.Aggregator;
+import anomalydetection.forecast.Forecaster;
 import anomalydetection.measurement.AnomalyScoredMeasurement;
 import anomalydetection.measurement.Measurement;
 import anomalydetection.timeseries.BoundedTimeSeries;
@@ -20,17 +19,16 @@ public class AnomalyDetectionStage extends CompositeStage {
 
 	final Distributor<AnomalyScoredMeasurement> anomalyScoreDistributor = new Distributor<>(new CopyByReferenceStrategy());
 
-	public AnomalyDetectionStage() {
+	public AnomalyDetectionStage(final Duration slidingWindowDuration, final Duration normalizationDuration, final Aggregator aggregator,
+			final Forecaster forecaster1) {
 
 		// Create the stages
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
-		final ExtractorStage extractor = new ExtractorStage(new BoundedTimeSeries(Duration.ofHours(1)));
-		final NormalizerStage normalizerStage = new NormalizerStage(Duration.ofSeconds(5), new MeanAggregator());
-		final ForecastStage forecaster = new ForecastStage(new RegressionForecaster());
+		final ExtractorStage extractor = new ExtractorStage(new BoundedTimeSeries(slidingWindowDuration));
+		final NormalizerStage normalizerStage = new NormalizerStage(normalizationDuration, aggregator);
+		final ForecastStage forecaster = new ForecastStage(forecaster1);
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
-		final PrinterStage printer = new PrinterStage(); // TODO Temp
-		final JSONExporter jsonExporter = new JSONExporter(new File("values.json")); // TODO Temp
 		final StorageStage storager = new StorageStage();
 
 		this.inputPort = measurementDistributor.getInputPort();
@@ -43,10 +41,12 @@ public class AnomalyDetectionStage extends CompositeStage {
 		super.connectPorts(measurementDistributor.getNewOutputPort(), measurementForecastDecorator.getInputPort2());
 		super.connectPorts(measurementForecastDecorator.getOutputPort(), anomalyScoreCalculator.getInputPort());
 		super.connectPorts(anomalyScoreCalculator.getOutputPort(), anomalyScoreDistributor.getInputPort());
-		super.connectPorts(anomalyScoreDistributor.getNewOutputPort(), printer.getInputPort());
-		super.connectPorts(anomalyScoreDistributor.getNewOutputPort(), jsonExporter.getInputPort());
 		super.connectPorts(anomalyScoreDistributor.getNewOutputPort(), storager.getInputPort());
 
+	}
+
+	public OutputPort<AnomalyScoredMeasurement> getNewOutputPort() {
+		return this.anomalyScoreDistributor.getNewOutputPort();
 	}
 
 	public OutputPort<AnomalyScoredMeasurement> getNewOutputPort(final double threshold) {
