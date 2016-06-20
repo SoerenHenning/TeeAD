@@ -32,10 +32,10 @@ public class JSONExportStage extends AbstractConsumerStage<AnomalyScoredMeasurem
 	protected void execute(final AnomalyScoredMeasurement measurement) {
 		try {
 			this.jsonGenerator.writeStartObject();
-			this.jsonGenerator.writeNumberField("time", measurement.getTime().toEpochMilli());
-			this.jsonGenerator.writeNumberField("measurement", measurement.getValue());
-			this.jsonGenerator.writeNumberField("prediction", measurement.getPrediction());
-			this.jsonGenerator.writeNumberField("anomalyscore", measurement.getAnomalyScore());
+			writeNumberFieldOrNull("time", measurement.getTime().toEpochMilli());
+			writeNumberFieldOrNull("measurement", measurement.getValue());
+			writeNumberFieldOrNull("prediction", measurement.getPrediction());
+			writeNumberFieldOrNull("anomalyscore", measurement.getAnomalyScore());
 			this.jsonGenerator.writeEndObject();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -52,4 +52,12 @@ public class JSONExportStage extends AbstractConsumerStage<AnomalyScoredMeasurem
 		super.onTerminating();
 	}
 
+	private void writeNumberFieldOrNull(final String key, final double value) throws IOException {
+		if (Double.isFinite(value)) {
+			this.jsonGenerator.writeNumberField(key, value);
+		} else {
+			this.jsonGenerator.writeNullField(key);
+		}
+
+	}
 }
