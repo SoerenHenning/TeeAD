@@ -10,11 +10,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import anomalydetection.measurement.AnomalyScoredMeasurement;
 import teetime.framework.AbstractConsumerStage;
 
-public class BetterJSONExporter extends AbstractConsumerStage<AnomalyScoredMeasurement> {
+public class JSONExportStage extends AbstractConsumerStage<AnomalyScoredMeasurement> {
 
 	private final JsonGenerator jsonGenerator;
 
-	public BetterJSONExporter(final File file) {
+	public JSONExportStage(final File file) {
 
 		try {
 			JsonFactory jsonFactory = new JsonFactory();

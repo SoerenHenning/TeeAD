@@ -26,7 +26,7 @@ public class AnomalyDetectionConfiguration extends Configuration {
 				new RegressionForecaster());
 		final SimpleAlertStage alerter = new SimpleAlertStage();
 		final PrinterStage printer = new PrinterStage(); // TODO Temp
-		final BetterJSONExporter jsonExporter = new BetterJSONExporter(new File("values.json")); // TODO Temp
+		final JSONExportStage jsonExporter = new JSONExportStage(new File("values.json")); // TODO Temp
 
 		// Connect the stages
 		super.connectPorts(generator.getOutputPort(), anomalyDetector.getInputPort());
