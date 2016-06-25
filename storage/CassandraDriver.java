@@ -27,20 +27,19 @@ public class CassandraDriver implements StorageDriver {
 
 	@Override
 	public TimeSeries retrieveTimeSeries(final String seriesId, final Instant start, final Instant end) {
-		Select statement = QueryBuilder.select("time", "measurement")
+		final Select statement = QueryBuilder.select("time", "measurement")
 				.from(this.table)
 				.where(QueryBuilder.eq("series_id", seriesId))
 				.and(QueryBuilder.gte("time", start.toEpochMilli()))
 				.and(QueryBuilder.lte("time", end.toEpochMilli()))
 				.orderBy(QueryBuilder.asc("time"));
-		System.out.println(statement.toString());
-		ResultSet results = session.execute(statement);
+		final ResultSet results = session.execute(statement);
 
-		TimeSeries timeSeries = new TimeSeries();
+		final TimeSeries timeSeries = new TimeSeries();
 
 		for (Row row : results) {
-			Instant time = row.getTimestamp("time").toInstant();
-			double value = row.getDouble("measurement");
+			final Instant time = row.getTimestamp("time").toInstant();
+			final double value = row.getDouble("measurement");
 			timeSeries.appendEnd(new TimeSeriesPoint(time, value));
 		}
 
