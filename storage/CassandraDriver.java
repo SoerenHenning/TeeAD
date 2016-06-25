@@ -22,6 +22,8 @@ public class CassandraDriver implements StorageDriver {
 		this.session = session;
 		this.table = table;
 
+		// BETTER Check if keyspace's set
+
 		createTableIfNotExists();
 	}
 
