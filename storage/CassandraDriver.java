@@ -18,6 +18,13 @@ public class CassandraDriver implements StorageDriver {
 	private final Session session;
 	private final String table;
 
+	// TODO use this values
+	private final String seriesIdColumn = "series_id";
+	private final String timeColumn = "time";
+	private final String measurementColumn = "measurement";
+	private final String predictionColumn = "prediction";
+	private final String anomalyscoreColumn = "anomalyscore";
+
 	public CassandraDriver(final Session session, final String table) {
 		this.session = session;
 		this.table = table;
