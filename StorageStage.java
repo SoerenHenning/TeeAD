@@ -1,6 +1,7 @@
 package anomalydetection;
 
 import anomalydetection.measurement.AnomalyScoredMeasurement;
+import anomalydetection.storage.StorageDriver;
 import teetime.framework.AbstractConsumerStage;
 
 /**
@@ -11,9 +12,15 @@ import teetime.framework.AbstractConsumerStage;
  */
 public class StorageStage extends AbstractConsumerStage<AnomalyScoredMeasurement> {
 
+	private final StorageDriver storageDriver;
+
+	public StorageStage(final StorageDriver storageDriver) {
+		this.storageDriver = storageDriver;
+	}
+
 	@Override
 	protected void execute(final AnomalyScoredMeasurement measurement) {
-		// Do Nothing
+		storageDriver.storeMeasurement("temp", measurement); // TODO seriesid
 	}
 
 }

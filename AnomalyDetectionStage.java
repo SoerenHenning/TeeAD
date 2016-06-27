@@ -19,17 +19,16 @@ public class AnomalyDetectionStage extends CompositeStage {
 
 	final Distributor<AnomalyScoredMeasurement> anomalyScoreDistributor = new Distributor<>(new CopyByReferenceStrategy());
 
-	public AnomalyDetectionStage(final Duration slidingWindowDuration, final Duration normalizationDuration, final Aggregator aggregator,
+	protected AnomalyDetectionStage(final BoundedTimeSeries slidingWindow, final Duration normalizationDuration, final Aggregator aggregator,
 			final Forecaster forecaster1) {
 
 		// Create the stages
 		final Distributor<Measurement> measurementDistributor = new Distributor<>(new CopyByReferenceStrategy());
-		final ExtractorStage extractor = new ExtractorStage(new BoundedTimeSeries(slidingWindowDuration));
+		final ExtractorStage extractor = new ExtractorStage(slidingWindow);
 		final NormalizerStage normalizerStage = new NormalizerStage(normalizationDuration, aggregator);
 		final ForecastStage forecaster = new ForecastStage(forecaster1);
 		final MeasurementForecastDecorationStage measurementForecastDecorator = new MeasurementForecastDecorationStage();
 		final AnomalyScoreCalculatorStage anomalyScoreCalculator = new AnomalyScoreCalculatorStage();
-		final StorageStage storager = new StorageStage();
 
 		this.inputPort = measurementDistributor.getInputPort();
 
@@ -41,8 +40,11 @@ public class AnomalyDetectionStage extends CompositeStage {
 		super.connectPorts(measurementDistributor.getNewOutputPort(), measurementForecastDecorator.getInputPort2());
 		super.connectPorts(measurementForecastDecorator.getOutputPort(), anomalyScoreCalculator.getInputPort());
 		super.connectPorts(anomalyScoreCalculator.getOutputPort(), anomalyScoreDistributor.getInputPort());
-		super.connectPorts(anomalyScoreDistributor.getNewOutputPort(), storager.getInputPort());
+	}
 
+	public AnomalyDetectionStage(final Duration slidingWindowDuration, final Duration normalizationDuration, final Aggregator aggregator,
+			final Forecaster forecaster) {
+		this(new BoundedTimeSeries(slidingWindowDuration), normalizationDuration, aggregator, forecaster);
 	}
 
 	public OutputPort<AnomalyScoredMeasurement> getNewOutputPort() {
