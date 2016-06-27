@@ -32,7 +32,7 @@ public class AnomalyDetectionConfiguration extends Configuration {
 		// ARIMAForecaster("192.168.99.100", 6311));
 		final AnomalyDetectionStage anomalyDetector = new AnomalyDetectionStage(Duration.ofHours(1), Duration.ofSeconds(5), new MeanAggregator(),
 				new RegressionForecaster());
-		final SimpleAlertStage alerter = new SimpleAlertStage();
+		final AlertPrinterStage alerter = new AlertPrinterStage();
 		final PrinterStage printer = new PrinterStage(); // TODO Temp
 		final JSONExportStage jsonExporter = new JSONExportStage(new File("values.json")); // TODO Temp
 
