@@ -5,7 +5,7 @@ import anomalydetection.storage.StorageDriver;
 import teetime.framework.AbstractConsumerStage;
 
 /**
- * Dummy stage that should later handles the storage of measurements
+ * This stage stores incoming {@code Measurement}s using a given {@code StorageDriver}.
  *
  * @author Sören Henning
  *
@@ -20,7 +20,7 @@ public class StorageStage extends AbstractConsumerStage<AnomalyScoredMeasurement
 
 	@Override
 	protected void execute(final AnomalyScoredMeasurement measurement) {
-		storageDriver.storeMeasurement("temp", measurement); // TODO seriesid
+		storageDriver.storeMeasurement(measurement);
 	}
 
 }

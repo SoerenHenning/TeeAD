@@ -43,7 +43,7 @@ public class AnomalyDetectionConfiguration extends Configuration {
 		// final AnomalyDetectionStage anomalyDetector = new AnomalyDetectionStage(Duration.ofHours(1), Duration.ofSeconds(5), new MeanAggregator(),new
 		// RegressionForecaster());
 		final AnomalyDetectionStage anomalyDetector = new StorableAnomalyDetectionStage(Duration.ofHours(1), Duration.ofSeconds(5), new MeanAggregator(),
-				new RegressionForecaster(), new CassandraDriver(session, "measurements"));
+				new RegressionForecaster(), new CassandraDriver(session, "measurements", "temp"));
 		final AlertPrinterStage alerter = new AlertPrinterStage();
 		final PrinterStage printer = new PrinterStage(); // TODO Temp
 		final JSONExportStage jsonExporter = new JSONExportStage(new File("values.json")); // TODO Temp

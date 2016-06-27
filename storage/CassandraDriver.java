@@ -17,6 +17,7 @@ public class CassandraDriver implements StorageDriver {
 
 	private final Session session;
 	private final String table;
+	private final String seriesId;
 
 	private String seriesIdColumn = "series_id";
 	private String timeColumn = "time";
@@ -24,9 +25,10 @@ public class CassandraDriver implements StorageDriver {
 	private String predictionColumn = "prediction";
 	private String anomalyscoreColumn = "anomalyscore";
 
-	public CassandraDriver(final Session session, final String table) {
+	public CassandraDriver(final Session session, final String table, final String seriesId) {
 		this.session = session;
 		this.table = table;
+		this.seriesId = seriesId;
 
 		if (session.getLoggedKeyspace() == null) {
 			throw new IllegalArgumentException("No keyspace set.");
@@ -76,10 +78,10 @@ public class CassandraDriver implements StorageDriver {
 	}
 
 	@Override
-	public TimeSeries retrieveTimeSeries(final String seriesId, final Instant start, final Instant end) {
+	public TimeSeries retrieveTimeSeries(final Instant start, final Instant end) {
 		final Select statement = QueryBuilder.select(this.timeColumn, this.measurementColumn)
 				.from(this.table)
-				.where(QueryBuilder.eq(this.seriesIdColumn, seriesId))
+				.where(QueryBuilder.eq(this.seriesIdColumn, this.seriesId))
 				.and(QueryBuilder.gte(this.timeColumn, start.toEpochMilli()))
 				.and(QueryBuilder.lte(this.timeColumn, end.toEpochMilli()))
 				.orderBy(QueryBuilder.asc(this.timeColumn));
@@ -97,10 +99,10 @@ public class CassandraDriver implements StorageDriver {
 	}
 
 	@Override
-	public void storeMeasurement(final String seriesId, final AnomalyScoredMeasurement measurement) {
+	public void storeMeasurement(final AnomalyScoredMeasurement measurement) {
 		final Insert statement = QueryBuilder
 				.insertInto(this.table)
-				.value(this.seriesIdColumn, seriesId)
+				.value(this.seriesIdColumn, this.seriesId)
 				.value(this.timeColumn, measurement.getTime().toEpochMilli())
 				.value(this.measurementColumn, measurement.getValue())
 				.value(this.predictionColumn, measurement.getPrediction())

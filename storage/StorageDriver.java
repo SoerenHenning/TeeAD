@@ -7,8 +7,8 @@ import anomalydetection.timeseries.TimeSeries;
 
 public interface StorageDriver {
 
-	public TimeSeries retrieveTimeSeries(final String seriesid, final Instant start, final Instant end);
+	public TimeSeries retrieveTimeSeries(final Instant start, final Instant end);
 
-	public void storeMeasurement(final String seriesid, final AnomalyScoredMeasurement measurement);
+	public void storeMeasurement(final AnomalyScoredMeasurement measurement);
 
 }
