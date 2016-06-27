@@ -54,6 +54,8 @@ public class AnomalyDetectionConfiguration extends Configuration {
 		super.connectPorts(anomalyDetector.getNewOutputPort(), printer.getInputPort());
 		super.connectPorts(anomalyDetector.getNewOutputPort(), jsonExporter.getInputPort());
 
+		// cluster.close();
+
 	}
 
 }

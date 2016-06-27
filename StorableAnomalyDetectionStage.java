@@ -12,8 +12,8 @@ public class StorableAnomalyDetectionStage extends AnomalyDetectionStage {
 
 	public StorableAnomalyDetectionStage(final Duration slidingWindowDuration, final Duration normalizationDuration, final Aggregator aggregator,
 			final Forecaster forecaster, final StorageDriver storageDriver) {
-		super(new BoundedTimeSeries(slidingWindowDuration, storageDriver.retrieveTimeSeries("abc", Instant.now().minus(slidingWindowDuration), Instant.now())),
-				normalizationDuration, aggregator, forecaster);
+		super(new BoundedTimeSeries(slidingWindowDuration, storageDriver.retrieveTimeSeries("temp", Instant.now().minus(slidingWindowDuration), Instant.now())),
+				normalizationDuration, aggregator, forecaster); // TODO temp seriesID
 
 		final StorageStage storageStage = new StorageStage(storageDriver);
 		super.connectPorts(super.getNewOutputPort(), storageStage.getInputPort());
