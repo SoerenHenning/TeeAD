@@ -28,7 +28,9 @@ public class CassandraDriver implements StorageDriver {
 		this.session = session;
 		this.table = table;
 
-		// BETTER Check if keyspace's set
+		if (session.getLoggedKeyspace() == null) {
+			throw new IllegalArgumentException("No keyspace set.");
+		}
 
 		createTableIfNotExists();
 	}
