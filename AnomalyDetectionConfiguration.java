@@ -12,8 +12,16 @@ public class AnomalyDetectionConfiguration extends Configuration {
 	public AnomalyDetectionConfiguration() {
 
 		// Create the stages
-		final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage(x -> 500 * Math.sin(x / 240) + 2000, 250, 0.01, 1000, Duration.ofSeconds(1),
-				3600);
+
+		MeasurementGenerator gen = new MeasurementGenerator();
+		gen.setFunction(x -> 500 * Math.sin(x / 60) + 2000);
+		gen.setNoise(250);
+		gen.setAnomalyProbability(0.01);
+		gen.setAnomayStrength(1000);
+		gen.setMinStepDistance(Duration.ofMillis(500));
+		gen.setMinStepDistance(Duration.ofSeconds(2));
+
+		final MeasurementGeneratorStage generator = new MeasurementGeneratorStage(gen, 3600);
 		// final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage(x -> 500 * Math.sin(x / 60) + 2000, 250, 0.01, 1000,
 		// Duration.ofSeconds(1),3600);
 		// final MeassurementsGeneratorStage generator = new MeassurementsGeneratorStage(x -> 500 * Math.pow(Math.sin(x / 60), 1 / 101) + 2000, 250, 0.01, 1000,
