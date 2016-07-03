@@ -7,8 +7,10 @@ public class MonitoringRecord {
 	private String hostname;
 	private String sessionId;
 	private long threadId;
-	private long timestamp; // Instant could be more useful
-	private long duration; // Duration could be more useful
+	// Java 8 Instant could be more useful
+	private long timestamp; // timestamp in nanoseconds returned by System.nanoTime()
+	// Java 8 Duration could be more useful
+	private long duration; // in nanoseconds
 
 	public MonitoringRecord() {}
 
