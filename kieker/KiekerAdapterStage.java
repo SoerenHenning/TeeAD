@@ -1,4 +1,4 @@
-package anomalydetection;
+package anomalydetection.kieker;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -12,7 +12,6 @@ import kieker.common.record.flow.trace.operation.AfterOperationEvent;
 import kieker.common.record.flow.trace.operation.AfterOperationFailedEvent;
 import kieker.common.record.flow.trace.operation.BeforeOperationEvent;
 
-import anomalydetection.kieker.MonitoringRecord;
 import teetime.stage.basic.AbstractTransformation;
 
 public class KiekerAdapterStage extends AbstractTransformation<IFlowRecord, MonitoringRecord> {
