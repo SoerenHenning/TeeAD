@@ -12,10 +12,10 @@ import kieker.common.record.flow.trace.operation.AfterOperationEvent;
 import kieker.common.record.flow.trace.operation.AfterOperationFailedEvent;
 import kieker.common.record.flow.trace.operation.BeforeOperationEvent;
 
-import anomalydetection.measurement.Measurement;
+import anomalydetection.kieker.MonitoringRecord;
 import teetime.stage.basic.AbstractTransformation;
 
-public class KiekerAdapterStage extends AbstractTransformation<IFlowRecord, Measurement> {
+public class KiekerAdapterStage extends AbstractTransformation<IFlowRecord, MonitoringRecord> {
 
 	private final Map<Long, Trace> traces = new HashMap<>();
 
@@ -36,71 +36,83 @@ public class KiekerAdapterStage extends AbstractTransformation<IFlowRecord, Meas
 		this.traces.put(traceID, trace);
 	}
 
-	private void handleOperationEventRecord(final AbstractOperationEvent record) {
+	private void handleOperationEventRecord(final AbstractOperationEvent event) {
 		// Check whether there was an incoming trace meta data record before
-		if (this.traces.get(record.getTraceId()) != null) {
-			if (record instanceof BeforeOperationEvent) {
-				this.handleBeforeOperationEventRecord((BeforeOperationEvent) record);
-			} else if (record instanceof AfterOperationEvent) {
-				this.handleAfterOperationEventRecord((AfterOperationEvent) record);
+		if (this.traces.get(event.getTraceId()) != null) {
+			if (event instanceof BeforeOperationEvent) {
+				this.handleBeforeOperationEventRecord((BeforeOperationEvent) event);
+			} else if (event instanceof AfterOperationEvent) {
+				this.handleAfterOperationEventRecord((AfterOperationEvent) event);
 			}
 		} else {
 			// TODO how to handle this?
 		}
 	}
 
-	private void handleBeforeOperationEventRecord(final BeforeOperationEvent record) {
-		this.traces.get(record.getTraceId()).push(record);
+	private void handleBeforeOperationEventRecord(final BeforeOperationEvent event) {
+		this.traces.get(event.getTraceId()).pushEvent(event);
 	}
 
-	private void handleAfterOperationEventRecord(final AfterOperationEvent record) {
-		final Trace trace = this.traces.get(record.getTraceId());
-		final BeforeOperationEvent beforeEvent = trace.pop();
+	private void handleAfterOperationEventRecord(final AfterOperationEvent event) {
+		final Trace trace = this.traces.get(event.getTraceId());
 
-		if (record instanceof AfterOperationFailedEvent) {
+		final BeforeOperationEvent beforeEvent = trace.popEvent();
+		if (trace.isEmpty()) {
+			this.traces.remove(event.getTraceId());
+		}
+
+		if (event instanceof AfterOperationFailedEvent) {
 			// TODO
 		}
 
-		// record.getOperationSignature();
-		// record.getClassSignature();
-		// long startTime = beforeEvent.getTimestamp();
-		// long endTime = record.getTimestamp();
-		// String hostname = trace.getHostname();
+		MonitoringRecord record = new MonitoringRecord();
+		record.setOperationSignature(event.getOperationSignature());
+		record.setClassSignature(event.getClassSignature());
+		record.setHostname(trace.getHostname());
+		record.setSessionId(trace.getSessionId());
+		record.setThreadId(trace.getThreadId());
+		record.setTimestamp(beforeEvent.getTimestamp());
+		record.setDuration(event.getTimestamp() - beforeEvent.getTimestamp());
 
-		// Additional log checks
-		// if (TraceReconstructor.this.activateAdditionalLogChecks) {
-		// if (!beforeEvent.getOperationSignature().equals(record.getOperationSignature())) {
-		// TraceReconstructor.this.faultyTraceBuffers.add(this);
-		// TraceReconstructor.this.traceBuffers.remove(this.traceID);
-		// }
-		// }
+		this.outputPort.send(record);
 
-		// this.outputPort.send(element);
-
-		if (traces.isEmpty()) {
-			this.traces.remove(record.getTraceId());
-		}
 	}
 
 	private class Trace {
 
 		private final Deque<BeforeOperationEvent> buffer = new ArrayDeque<>();
 		private final String hostname;
+		private final String sessionId;
+		private final long threadId;
 
 		public Trace(final TraceMetadata record) {
 			this.hostname = record.getHostname();
+			this.sessionId = record.getSessionId();
+			this.threadId = record.getThreadId();
 		}
 
-		public void push(final BeforeOperationEvent event) {
+		public void pushEvent(final BeforeOperationEvent event) {
 			this.buffer.push(event);
 		}
 
-		public BeforeOperationEvent pop() {
+		public BeforeOperationEvent popEvent() {
 			return this.buffer.pop();
+		}
+
+		public boolean isEmpty() {
+			return this.buffer.isEmpty();
 		}
 
 		public String getHostname() {
 			return hostname;
+		}
+
+		public String getSessionId() {
+			return sessionId;
+		}
+
+		public long getThreadId() {
+			return threadId;
 		}
 
 	}
