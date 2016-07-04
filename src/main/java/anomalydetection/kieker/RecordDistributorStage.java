@@ -1,7 +1,6 @@
 package anomalydetection.kieker;
 
-import kieker.analysis.stage.tracediagnosis.Filter;
-
+import anomalydetection.util.Filter;
 import teetime.framework.CompositeStage;
 import teetime.framework.InputPort;
 import teetime.framework.OutputPort;

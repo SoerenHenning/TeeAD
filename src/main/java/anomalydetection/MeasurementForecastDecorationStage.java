@@ -1,9 +1,8 @@
 package anomalydetection;
 
-import kieker.analysis.util.AbstractBiCombinerStage;
-
 import anomalydetection.measurement.ForecastedMeassurement;
 import anomalydetection.measurement.Measurement;
+import anomalydetection.util.AbstractBiCombinerStage;
 import teetime.framework.OutputPort;
 
 public class MeasurementForecastDecorationStage extends AbstractBiCombinerStage<Double, Measurement> {
