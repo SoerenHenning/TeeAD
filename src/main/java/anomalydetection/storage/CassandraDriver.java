@@ -21,6 +21,7 @@ public class CassandraDriver implements StorageDriver {
 
 	private String seriesIdColumn = "series_id";
 	private String timeColumn = "time";
+	private String nanoColumn = "nanos";
 	private String measurementColumn = "measurement";
 	private String predictionColumn = "prediction";
 	private String anomalyscoreColumn = "anomalyscore";
@@ -53,6 +54,14 @@ public class CassandraDriver implements StorageDriver {
 		this.timeColumn = timeColumn;
 	}
 
+	public String getNanoColumn() {
+		return nanoColumn;
+	}
+
+	public void setNanoColumn(final String nanoColumn) {
+		this.nanoColumn = nanoColumn;
+	}
+
 	public String getMeasurementColumn() {
 		return measurementColumn;
 	}
@@ -79,7 +88,8 @@ public class CassandraDriver implements StorageDriver {
 
 	@Override
 	public TimeSeries retrieveTimeSeries(final Instant start, final Instant end) {
-		final Select statement = QueryBuilder.select(this.timeColumn, this.measurementColumn)
+		// TODO Ignores nanos in Instants
+		final Select statement = QueryBuilder.select(this.timeColumn, this.nanoColumn, this.measurementColumn)
 				.from(this.table)
 				.where(QueryBuilder.eq(this.seriesIdColumn, this.seriesId))
 				.and(QueryBuilder.gte(this.timeColumn, start.toEpochMilli()))
@@ -90,7 +100,8 @@ public class CassandraDriver implements StorageDriver {
 		final TimeSeries timeSeries = new TimeSeries();
 
 		for (Row row : results) {
-			final Instant time = row.getTimestamp(this.timeColumn).toInstant();
+			final Instant millisTime = row.getTimestamp(this.timeColumn).toInstant();
+			final Instant time = millisTime.plusNanos(row.getInt(this.nanoColumn));
 			final double value = row.getDouble(this.measurementColumn);
 			timeSeries.appendEnd(new TimeSeriesPoint(time, value));
 		}
@@ -104,6 +115,7 @@ public class CassandraDriver implements StorageDriver {
 				.insertInto(this.table)
 				.value(this.seriesIdColumn, this.seriesId)
 				.value(this.timeColumn, measurement.getTime().toEpochMilli())
+				.value(this.nanoColumn, measurement.getTime().getNano() % 1_000_000)
 				.value(this.measurementColumn, measurement.getValue())
 				.value(this.predictionColumn, measurement.getPrediction())
 				.value(this.anomalyscoreColumn, measurement.getAnomalyScore());
@@ -115,10 +127,11 @@ public class CassandraDriver implements StorageDriver {
 				"CREATE TABLE IF NOT EXISTS " + this.table + " (" +
 						this.seriesIdColumn + " text," +
 						this.timeColumn + " timestamp," +
+						this.nanoColumn + " int," +
 						this.measurementColumn + " double," +
 						this.predictionColumn + " double," +
 						this.anomalyscoreColumn + " double," +
-						"PRIMARY KEY (" + this.seriesIdColumn + ", " + this.timeColumn + ")" +
+						"PRIMARY KEY (" + this.seriesIdColumn + ", " + this.timeColumn + ", " + this.nanoColumn + ")" +
 						");");
 	}
 
