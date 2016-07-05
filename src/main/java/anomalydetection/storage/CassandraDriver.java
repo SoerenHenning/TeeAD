@@ -88,7 +88,7 @@ public class CassandraDriver implements StorageDriver {
 
 	@Override
 	public TimeSeries retrieveTimeSeries(final Instant start, final Instant end) {
-		// TODO Ignores nanos in Instants
+		// Retrieving time series just works on milliseconds precision
 		final Select statement = QueryBuilder.select(this.timeColumn, this.nanoColumn, this.measurementColumn)
 				.from(this.table)
 				.where(QueryBuilder.eq(this.seriesIdColumn, this.seriesId))
