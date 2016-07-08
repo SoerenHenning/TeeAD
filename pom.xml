@@ -4,6 +4,30 @@
   <artifactId>teead</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
+  <name>TeeAD</name>
+  <description>TeeAD is a library for time series analysis and anomaly detection with TeeTime.</description>
+  <url>https://github.com/SoerenHenning/TeeAD</url>
+  
+  <licenses>
+  	<license>
+  		<name>The Apache License, Version 2.0</name>
+	    <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  
+  <developers>
+    <developer>
+      <name>Sören Henning</name>
+      <email>post@soeren-henning.de</email>
+    </developer>
+  </developers>
+  
+  <scm>
+  	<connection>scm:git:git://github.com/SoerenHenning/TeeAD.git</connection>
+  	<developerConnection>scm:git:ssh://github.com:SoerenHenning/TeeAD.git</developerConnection>
+  	<url>http://github.com/SoerenHenning/TeeAD/tree/master</url>
+  </scm>
+  
   <repositories>
 		<repository>
 			<!-- for SNAPSHOT versions -->
