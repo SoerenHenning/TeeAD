@@ -6,7 +6,7 @@
   This ruleset checks my code for bad stuff
   </description>
 
-	<exclude-pattern>.*/org/graphdrawing/graphml/*.*</exclude-pattern>
+	<exclude-pattern>target/apidocs</exclude-pattern>
 
 	<rule ref="rulesets/internal/all-java.xml"></rule>
 
