@@ -1,7 +1,7 @@
 package teead;
 
 import teead.anomalyscore.AnomalyScoreCalculator;
-import teead.anomalyscore.SimpleAnomalyScoreCalculator;
+import teead.anomalyscore.DeviationAnomalyScoreCalculator;
 import teead.measurement.AnomalyScoredMeasurement;
 import teead.measurement.ForecastedMeassurement;
 import teetime.stage.basic.AbstractTransformation;
@@ -11,7 +11,7 @@ public class AnomalyScoreCalculatorStage extends AbstractTransformation<Forecast
 	private final AnomalyScoreCalculator anomalyScoreCalculator;
 
 	public AnomalyScoreCalculatorStage() {
-		this.anomalyScoreCalculator = new SimpleAnomalyScoreCalculator();
+		this.anomalyScoreCalculator = new DeviationAnomalyScoreCalculator();
 	}
 
 	public AnomalyScoreCalculatorStage(final AnomalyScoreCalculator anomalyScoreCalculator) {
