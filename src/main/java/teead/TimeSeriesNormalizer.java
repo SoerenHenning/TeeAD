@@ -8,6 +8,14 @@ import teead.timeseries.EquidistantTimeSeries;
 import teead.timeseries.TimeSeries;
 import teead.timeseries.TimeSeriesPoint;
 
+/**
+ * This class can be used to normalize a {@link TimeSeries}. This means it
+ * transforms a {@link TimeSeries} to an {@link EquidistantTimeSeries} using a
+ * given step size (the distance) and {@link Aggregator}.
+ *
+ * @author Sören Henning
+ *
+ */
 public class TimeSeriesNormalizer {
 
 	private final Duration stepSize;
