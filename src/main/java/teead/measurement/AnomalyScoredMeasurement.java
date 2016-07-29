@@ -2,6 +2,13 @@ package teead.measurement;
 
 import java.time.Instant;
 
+/**
+ * A {@link AnomalyScoredMeasurement} is a {@link ForecastedMeassurement} with
+ * an additional anomaly score.
+ *
+ * @author Sören Henning
+ *
+ */
 public class AnomalyScoredMeasurement extends ForecastedMeassurement {
 
 	private double anomalyScore;

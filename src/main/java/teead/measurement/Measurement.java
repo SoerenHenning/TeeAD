@@ -2,6 +2,13 @@ package teead.measurement;
 
 import java.time.Instant;
 
+/**
+ * A {@link Measurement} consists of an instantaneous point on the time-line
+ * {@code Instant} and the measured value.
+ *
+ * @author Sören Henning
+ *
+ */
 public class Measurement {
 
 	private Instant time;

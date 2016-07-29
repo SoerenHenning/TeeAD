@@ -2,6 +2,13 @@ package teead.measurement;
 
 import java.time.Instant;
 
+/**
+ * A {@link ForecastedMeassurement} is a {@link Measurement} with an additional
+ * predicted value.
+ *
+ * @author Sören Henning
+ *
+ */
 public class ForecastedMeassurement extends Measurement {
 
 	private double prediction;
