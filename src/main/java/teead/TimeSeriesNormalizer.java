@@ -31,8 +31,7 @@ public class TimeSeriesNormalizer {
 
 		for (TimeSeriesPoint point : timeSeries.backwards()) {
 			if (point.getTime().isBefore(intervalEnding)) {
-				// Aggregate Interval
-				// add aggregated value to equistantTimeSeries
+				// Aggregate Interval add aggregated value to equistantTimeSeries
 				double aggregated = aggregator.aggregate(interval);
 				equidistanteTimeSeries.appendBegin(aggregated);
 
@@ -42,10 +41,9 @@ public class TimeSeriesNormalizer {
 			}
 			interval.appendBegin(point);
 		}
-		// letztes interval abschließen
+		// Finish last interval
 		double aggregated = aggregator.aggregate(interval);
 		equidistanteTimeSeries.appendBegin(aggregated);
-		// Redundater Code
 
 		return equidistanteTimeSeries;
 
