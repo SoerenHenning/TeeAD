@@ -2,6 +2,13 @@ package teead.timeseries;
 
 import java.time.Instant;
 
+/**
+ * {@link TimeSeriesPoint}s are the elements of {@link TimeSeries}. They
+ * consists of an instantaneous time stamp and a value.
+ *
+ * @author Sören Henning
+ *
+ */
 public class TimeSeriesPoint {
 
 	private final Instant time;
