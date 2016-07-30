@@ -1,7 +1,7 @@
 package teead;
 
 import teead.measurement.AnomalyScoredMeasurement;
-import teead.storage.StorageDriver;
+import teead.storage.StorageAdapter;
 import teetime.framework.AbstractConsumerStage;
 
 /**
@@ -12,9 +12,9 @@ import teetime.framework.AbstractConsumerStage;
  */
 public class StorageStage extends AbstractConsumerStage<AnomalyScoredMeasurement> {
 
-	private final StorageDriver storageDriver;
+	private final StorageAdapter storageDriver;
 
-	public StorageStage(final StorageDriver storageDriver) {
+	public StorageStage(final StorageAdapter storageDriver) {
 		this.storageDriver = storageDriver;
 	}
 

@@ -8,7 +8,7 @@ import com.datastax.driver.core.Session;
 
 import teead.aggregation.MeanAggregator;
 import teead.forecast.ARIMAForecaster;
-import teead.storage.CassandraDriver;
+import teead.storage.CassandraAdapter;
 import teetime.framework.Configuration;
 
 public class AnomalyDetectionConfiguration extends Configuration {
@@ -43,7 +43,7 @@ public class AnomalyDetectionConfiguration extends Configuration {
 		// final AnomalyDetectionStage anomalyDetector = new AnomalyDetectionStage(Duration.ofHours(1), Duration.ofSeconds(5), new MeanAggregator(),new
 		// RegressionForecaster());
 		final AnomalyDetectionStage anomalyDetector = new StorableAnomalyDetectionStage(Duration.ofHours(1), Duration.ofSeconds(5), new MeanAggregator(),
-				new ARIMAForecaster("192.168.99.100", 32777), new CassandraDriver(session, "measurements", "temp2"));
+				new ARIMAForecaster("192.168.99.100", 32777), new CassandraAdapter(session, "measurements", "temp2"));
 		final AlertPrinterStage alerter = new AlertPrinterStage();
 		final PrinterStage printer = new PrinterStage(); // TODO Temp
 		final JSONExportStage jsonExporter = new JSONExportStage(new File("values.json")); // TODO Temp
