@@ -15,7 +15,7 @@ import teead.timeseries.TimeSeriesPoint;
 
 public class CassandraAdapter implements StorageAdapter {
 
-	private final CassandraManager manager;
+	private final Session session;
 
 	private final String table;
 	private final String seriesId;
@@ -28,11 +28,17 @@ public class CassandraAdapter implements StorageAdapter {
 	private String anomalyscoreColumn = "anomalyscore";
 
 	public CassandraAdapter(final Session session, final String table, final String seriesId) {
-		this(new StaticInstanceCassandraManager(session), table, seriesId);
+		this.session = session;
+		this.table = table;
+		this.seriesId = seriesId;
+
+		createTableIfNotExists();
 	}
 
+	@Deprecated
 	public CassandraAdapter(final CassandraManager manager, final String table, final String seriesId) {
-		this.manager = manager;
+		this.session = manager.getSession();
+
 		this.table = table;
 		this.seriesId = seriesId;
 
@@ -96,7 +102,7 @@ public class CassandraAdapter implements StorageAdapter {
 				.and(QueryBuilder.gte(this.timeColumn, start.toEpochMilli()))
 				.and(QueryBuilder.lte(this.timeColumn, end.toEpochMilli()))
 				.orderBy(QueryBuilder.asc(this.timeColumn));
-		final ResultSet results = this.manager.getSession().execute(statement);
+		final ResultSet results = this.session.execute(statement); // TODO handle unavailability
 
 		final TimeSeries timeSeries = new TimeSeries();
 
@@ -120,11 +126,12 @@ public class CassandraAdapter implements StorageAdapter {
 				.value(this.measurementColumn, measurement.getValue())
 				.value(this.predictionColumn, measurement.getPrediction())
 				.value(this.anomalyscoreColumn, measurement.getAnomalyScore());
-		this.manager.getSession().execute(statement);
+		this.session.execute(statement); // TODO handle unavailability
 	}
 
 	private void createTableIfNotExists() {
-		this.manager.getSession().execute(
+		// TODO handle unavailability
+		this.session.execute(
 				"CREATE TABLE IF NOT EXISTS " + this.table + " (" +
 						this.seriesIdColumn + " text," +
 						this.timeColumn + " timestamp," +

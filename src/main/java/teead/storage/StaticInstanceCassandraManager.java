@@ -11,6 +11,7 @@ import com.datastax.driver.core.Session;
  * @author Sören Henning
  *
  */
+@Deprecated
 public class StaticInstanceCassandraManager implements CassandraManager {
 
 	private final Session session;

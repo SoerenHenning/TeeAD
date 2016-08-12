@@ -9,6 +9,7 @@ import com.datastax.driver.core.Session;
  * @author Sören Henning
  *
  */
+@Deprecated
 public interface CassandraManager {
 
 	public Session getSession();
