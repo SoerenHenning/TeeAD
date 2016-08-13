@@ -9,6 +9,8 @@ import teead.timeseries.TimeSeriesPoint;
  */
 public class WeightedForecaster implements Forecaster {
 
+	public final static String WEIGHT_METHOD_CONFIGURATION_KEY = "weightMethod";
+
 	public enum WeightMethod {
 		LOGARITHMIC, LINEAR, EXPONENTIAL
 	}
@@ -17,6 +19,10 @@ public class WeightedForecaster implements Forecaster {
 
 	public WeightedForecaster(final WeightMethod weightMethod) {
 		this.weightMethod = weightMethod;
+	}
+
+	public WeightedForecaster(final ForecasterConfiguration configuration) {
+		this(WeightMethod.valueOf(configuration.get(WEIGHT_METHOD_CONFIGURATION_KEY)));
 	}
 
 	@Override

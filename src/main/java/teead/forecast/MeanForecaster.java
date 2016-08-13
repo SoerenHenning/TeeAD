@@ -11,6 +11,12 @@ import teead.timeseries.EquidistantTimeSeries;
  */
 public class MeanForecaster implements Forecaster {
 
+	public MeanForecaster() {}
+
+	public MeanForecaster(final ForecasterConfiguration configuration) {
+		this();
+	}
+
 	@Override
 	public double forecast(final EquidistantTimeSeries timeSeries) {
 

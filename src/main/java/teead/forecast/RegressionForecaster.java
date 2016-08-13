@@ -7,6 +7,12 @@ import teead.timeseries.TimeSeriesPoint;
 
 public class RegressionForecaster implements Forecaster {
 
+	public RegressionForecaster() {}
+
+	public RegressionForecaster(final ForecasterConfiguration configuration) {
+		this();
+	}
+
 	@Override
 	public double forecast(final EquidistantTimeSeries timeSeries) {
 		if (timeSeries.isEmpty()) {

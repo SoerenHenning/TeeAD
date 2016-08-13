@@ -11,6 +11,10 @@ public class ARIMAForecaster extends AbstractRForecaster {
 		super(host, port);
 	}
 
+	public ARIMAForecaster(final ForecasterConfiguration configuration) {
+		super(configuration);
+	}
+
 	@Override
 	protected double performRForecast(final EquidistantTimeSeries timeSeries) throws REXPMismatchException, REngineException {
 

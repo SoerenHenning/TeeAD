@@ -1,9 +1,9 @@
 package teead.forecast;
 
-public class ForecasterConfiguration {
+import java.util.HashMap;
 
-	public ForecasterConfiguration() {
-		// TODO Auto-generated constructor stub
-	}
+public class ForecasterConfiguration extends HashMap<String, String> {
+
+	private static final long serialVersionUID = 1L;
 
 }

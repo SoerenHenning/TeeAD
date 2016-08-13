@@ -9,7 +9,10 @@ import teead.timeseries.EquidistantTimeSeries;
 
 public abstract class AbstractRForecaster implements Forecaster {
 
-	final RConnection rConnection;
+	protected final RConnection rConnection;
+
+	public final static String HOST_CONFIGURATION_KEY = "rserve.host";
+	public final static String PORT_CONFIGURATION_KEY = "rserve.port";
 
 	public AbstractRForecaster(final String host, final int port) {
 		try {
@@ -20,6 +23,10 @@ public abstract class AbstractRForecaster implements Forecaster {
 			e.printStackTrace();
 			throw new IllegalStateException(e); // TODO
 		}
+	}
+
+	public AbstractRForecaster(final ForecasterConfiguration configuration) {
+		this(configuration.get(HOST_CONFIGURATION_KEY), Integer.parseInt(configuration.get(PORT_CONFIGURATION_KEY)));
 	}
 
 	@Override
