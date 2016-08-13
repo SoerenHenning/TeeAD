@@ -49,6 +49,7 @@ public class WeightedForecaster implements Forecaster {
 		case LINEAR:
 			return position;
 		case EXPONENTIAL:
+			// TODO use position - numberOfElements to avoid Infinity
 			return Math.exp(position);
 		default:
 			return position;
