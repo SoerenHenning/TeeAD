@@ -32,8 +32,9 @@ public class WeightedForecaster implements Forecaster {
 
 		// more recent entry means more weight
 		int position = 1; // Position > 0, because logarithmic forecast method
+		int size = timeSeries.size();
 		for (TimeSeriesPoint point : timeSeries) {
-			final double weight = getWeight(position);
+			final double weight = getWeight(position, size);
 			totalWeights += weight;
 			weightedSum += point.getValue() * weight;
 			position++;
@@ -42,15 +43,14 @@ public class WeightedForecaster implements Forecaster {
 		return weightedSum / totalWeights;
 	}
 
-	private double getWeight(final int position) {
+	private double getWeight(final int position, final int size) {
 		switch (this.weightMethod) {
 		case LOGARITHMIC:
 			return Math.log(position);
 		case LINEAR:
 			return position;
 		case EXPONENTIAL:
-			// TODO use position - numberOfElements to avoid Infinity
-			return Math.exp(position);
+			return Math.exp(position - size);
 		default:
 			return position;
 		}
