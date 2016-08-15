@@ -9,7 +9,9 @@ public class ForecastersTest {
 
 	private static final String FORECASTERS_PATH = "teead.forecast";
 	private static final String MEAN_FORECASTER_NAME = "MeanForecaster";
-	private static final String WEIGHTED_FORECASTER_NAME = "WeightedForecaster";
+	private static final String LINEAR_WEIGHTED_FORECASTER_NAME = "LinearWeightedForecaster";
+	private static final String LOGARITHMIC_WEIGHTED_FORECASTER_NAME = "LogarithmicWeightedForecaster";
+	private static final String EXPONENTIAL_WEIGHTED_FORECASTER_NAME = "ExponentialWeightedForecaster";
 	private static final String REGRESSION_FORECASTER_NAME = "RegressionForecaster";
 
 	@Test
@@ -34,14 +36,24 @@ public class ForecastersTest {
 	}
 
 	@Test
-	public void testGetByFullClassNameWithWeigthedForecaster() {
-		String weigthMethodName = WeightedForecaster.WeightMethod.LINEAR.name();
-		ForecasterConfiguration configuration = new ForecasterConfiguration();
-		configuration.put(WeightedForecaster.WEIGHT_METHOD_CONFIGURATION_KEY, weigthMethodName);
+	public void testGetByFullClassNameWithLinearWeightedForecaster() {
+		Forecaster forecaster = Forecasters.getByFullClassName(FORECASTERS_PATH + '.' + LINEAR_WEIGHTED_FORECASTER_NAME, new ForecasterConfiguration());
 
-		Forecaster forecaster = Forecasters.getByFullClassName(FORECASTERS_PATH + '.' + WEIGHTED_FORECASTER_NAME, configuration);
+		assertThat(forecaster, instanceOf(LinearWeightedForecaster.class));
+	}
 
-		assertThat(forecaster, instanceOf(WeightedForecaster.class));
+	@Test
+	public void testGetByFullClassNameWithLogarithmicWeightedMeanForecaster() {
+		Forecaster forecaster = Forecasters.getByFullClassName(FORECASTERS_PATH + '.' + LOGARITHMIC_WEIGHTED_FORECASTER_NAME, new ForecasterConfiguration());
+
+		assertThat(forecaster, instanceOf(LogarithmicWeightedForecaster.class));
+	}
+
+	@Test
+	public void testGetByFullClassNameWithExponentialWeightedForecaster() {
+		Forecaster forecaster = Forecasters.getByFullClassName(FORECASTERS_PATH + '.' + EXPONENTIAL_WEIGHTED_FORECASTER_NAME, new ForecasterConfiguration());
+
+		assertThat(forecaster, instanceOf(ExponentialWeightedForecaster.class));
 	}
 
 	@Test

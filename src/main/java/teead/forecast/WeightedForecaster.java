@@ -6,7 +6,9 @@ import teead.timeseries.TimeSeriesPoint;
 /**
  * @author Christian Claus Wiechmann, Sören Henning
  *
+ * @deprecated use {@link AbstractWeightedForecaster} and its subclasses instead
  */
+@Deprecated
 public class WeightedForecaster implements Forecaster {
 
 	public final static String WEIGHT_METHOD_CONFIGURATION_KEY = "weightMethod";
