@@ -6,10 +6,16 @@ import teead.timeseries.TimeSeries;
 
 public class PercentileAggregator implements Aggregator {
 
+	public final static String PERCENTILE_KEY = "percentile";
+
 	private double percentile;
 
 	public PercentileAggregator(final double percentile) {
 		this.setPercentile(percentile);
+	}
+
+	public PercentileAggregator(final AggregatorConfiguration configuration) {
+		this(Double.valueOf(configuration.get(PERCENTILE_KEY)));
 	}
 
 	@Override

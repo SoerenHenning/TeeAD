@@ -6,6 +6,12 @@ import teead.timeseries.TimeSeries;
 
 public class MeanAggregator implements Aggregator {
 
+	public MeanAggregator() {}
+
+	public MeanAggregator(final AggregatorConfiguration configuration) {
+		this();
+	}
+
 	@Override
 	public double aggregate(final TimeSeries timeSeries) {
 		return StatUtils.mean(timeSeries.toValuesArray());
