@@ -5,6 +5,7 @@ import java.time.Instant;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.exceptions.NoHostAvailableException;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
@@ -102,7 +103,7 @@ public class CassandraAdapter implements StorageAdapter {
 				.and(QueryBuilder.gte(this.timeColumn, start.toEpochMilli()))
 				.and(QueryBuilder.lte(this.timeColumn, end.toEpochMilli()))
 				.orderBy(QueryBuilder.asc(this.timeColumn));
-		final ResultSet results = this.session.execute(statement); // TODO handle unavailability
+		final ResultSet results = this.session.execute(statement); // BETTER handle unavailability
 
 		final TimeSeries timeSeries = new TimeSeries();
 
@@ -126,7 +127,12 @@ public class CassandraAdapter implements StorageAdapter {
 				.value(this.measurementColumn, measurement.getValue())
 				.value(this.predictionColumn, measurement.getPrediction())
 				.value(this.anomalyscoreColumn, measurement.getAnomalyScore());
-		this.session.execute(statement); // TODO handle unavailability
+		try {
+			this.session.execute(statement);
+		} catch (NoHostAvailableException e) { // NOPMD See comments
+			// The database is unavailable so we discard this record
+			// BETTER log this
+		}
 	}
 
 	private void createTableIfNotExists() {
