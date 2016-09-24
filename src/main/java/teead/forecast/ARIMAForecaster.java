@@ -16,10 +16,10 @@ public class ARIMAForecaster extends AbstractRForecaster {
 	}
 
 	@Override
-	protected double performRForecast(final EquidistantTimeSeries timeSeries) throws REXPMismatchException, REngineException {
+	protected double performRForecast(final EquidistantTimeSeries timeSeries) throws REngineException {
 
 		if (timeSeries.isEmpty()) {
-			return 0; // TODO
+			return Double.NaN;
 		}
 
 		// Transfer time series to R
@@ -27,9 +27,13 @@ public class ARIMAForecaster extends AbstractRForecaster {
 		// Do ARIMA forecast on time Series
 		super.rConnection.eval("forecast <- forecast(auto.arima(ts(timeSeries)), h=1)");
 		// Retrieve result
-		double result = super.rConnection.eval("as.numeric(forecast$mean)").asDouble();
+		try {
+			double result = super.rConnection.eval("as.numeric(forecast$mean)").asDouble();
+			return result;
+		} catch (REXPMismatchException e) {
+			return Double.NaN;
+		}
 
-		return result;
 	}
 
 }
